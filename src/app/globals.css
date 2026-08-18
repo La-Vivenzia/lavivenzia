@@ -1,26 +1,182 @@
 @import "tailwindcss";
 
+@theme {
+  --color-background: #080806;
+  --color-background-soft: #0D0C09;
+  --color-surface: #100E0A;
+  --color-surface-warm: #151109;
+
+  --color-gold-primary: #C6943B;
+  --color-gold-light: #D7AE63;
+  --color-gold-muted: #96702F;
+  --color-gold-dark: #60461E;
+
+  --color-maroon: #800020;
+
+  --color-ivory: #E7D5B4;
+  --color-cream: #D7C29E;
+  --color-body-text: #C8BCA9;
+  --color-muted-text: #A89C8B;
+
+  --color-border-gold: rgba(198, 148, 59, 0.35);
+  --color-border-subtle: rgba(215, 174, 99, 0.15);
+  
+  --font-serif: var(--font-cinzel), "Cinzel", serif;
+  --font-cormorant: var(--font-cormorant), "Cormorant Garamond", serif;
+  --font-sans: var(--font-montserrat), "Montserrat", sans-serif;
+}
+
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --bg: #080806;
+  --bg-2: #0D0C09;
+  --ink: #E7D5B4;
+  --ink-dim: #C8BCA9;
+  --ink-faint: #A89C8B;
+  --gold: #C6943B;
+  --gold-bright: #D7AE63;
+  --gold-deep: #96702F;
+  --maroon: #800020;
+  --line: rgba(198, 148, 59, 0.35);
+  --line-soft: rgba(215, 174, 99, 0.15);
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html {
+  scroll-behavior: smooth;
+  overflow-x: hidden;
+  font-size: 16px;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background-color: var(--bg);
+  color: var(--ink);
+  font-family: var(--font-sans);
+  font-weight: 300;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+  max-width: 100vw;
+}
+
+.font-serif {
+  font-family: var(--font-cinzel), "Cinzel", serif;
+}
+
+.ital {
+  font-family: var(--font-cormorant), "Cormorant Garamond", serif;
+  font-style: italic;
+  color: var(--gold-bright);
+}
+
+.eyebrow {
+  font-size: 11px;
+  letter-spacing: 0.3em;
+  color: var(--gold);
+  text-transform: uppercase;
+  font-weight: 500;
+  font-family: var(--font-sans);
+}
+
+.btn-gold-primary {
+  background: linear-gradient(135deg, #D7AE63 0%, #C6943B 50%, #96702F 100%);
+  color: #080806;
+  border: none;
+  padding: 15px 28px;
+  border-radius: 6px;
+  font-weight: 600;
+  font-size: 12px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  display: inline-block;
+  font-family: var(--font-sans);
+  box-shadow: 0 4px 20px rgba(198, 148, 59, 0.25);
+}
+
+.btn-gold-primary:hover {
+  filter: brightness(1.1);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 28px rgba(215, 174, 99, 0.4);
+}
+
+.btn-gold-outline {
+  border: 1px solid rgba(198, 148, 59, 0.5);
+  color: #D7AE63;
+  background: rgba(16, 14, 10, 0.7);
+  backdrop-filter: blur(8px);
+  padding: 14px 26px;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  display: inline-block;
+  font-family: var(--font-sans);
+}
+
+.btn-gold-outline:hover {
+  background: #C6943B;
+  color: #080806;
+  border-color: #C6943B;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 20px rgba(198, 148, 59, 0.3);
+}
+
+.btn-waitlist {
+  border: 1px solid rgba(198, 148, 59, 0.5);
+  color: #D7AE63;
+  background: rgba(16, 14, 10, 0.7);
+  backdrop-filter: blur(8px);
+  padding: 14px 26px;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  display: inline-block;
+  font-family: var(--font-sans);
+}
+
+.btn-waitlist:hover {
+  background: var(--maroon);
+  color: #fcfbf9;
+  border-color: var(--maroon);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 20px rgba(128, 0, 32, 0.4);
+}
+
+.btn-maroon-primary {
+  background: var(--maroon);
+  color: #fcfbf9;
+  border: none;
+  padding: 15px 28px;
+  border-radius: 6px;
+  font-weight: 600;
+  font-size: 12px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  display: inline-block;
+  font-family: var(--font-sans);
+  box-shadow: 0 4px 20px rgba(128, 0, 32, 0.25);
+}
+
+.btn-maroon-primary:hover {
+  filter: brightness(1.1);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 28px rgba(128, 0, 32, 0.4);
+}
+
+@layer utilities {
+  .text-gradient-gold {
+    background: linear-gradient(135deg, var(--gold-bright), var(--gold-deep));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
 }
