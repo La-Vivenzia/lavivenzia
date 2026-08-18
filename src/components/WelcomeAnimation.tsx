@@ -3,17 +3,19 @@
 import React, { useState, useEffect } from "react";
 import Image from "next/image";
 
+// Project-aligned quotes shown sequentially after the loading bar.
+// Module scope so the effect below doesn't see a new array every render.
+const quotes = [
+  "Curating Extraordinary Journeys",
+  "Designing Timeless Experiences",
+  "Elevating Everyday Luxury"
+];
+
 export default function WelcomeAnimation() {
   const [isVisible, setIsVisible] = useState(true);
   const [showText, setShowText] = useState(false);
   const [isFading, setIsFading] = useState(false);
   const [displayedQuotes, setDisplayedQuotes] = useState<string[]>([]);
-  // Project-aligned quotes shown sequentially after the loading bar
-  const quotes = [
-    "Curating Extraordinary Journeys",
-    "Designing Timeless Experiences",
-    "Elevating Everyday Luxury"
-  ];
 
   useEffect(() => {
     // Fade out logo after 6 seconds to allow quotes to appear
@@ -106,7 +108,7 @@ export default function WelcomeAnimation() {
           height={90}
           className="w-48 sm:w-64 md:w-72 h-auto object-contain mb-10 -translate-x-3 sm:-translate-x-4"
           style={{ mixBlendMode: "screen" }}
-          priority
+          preload
           unoptimized
         />
         

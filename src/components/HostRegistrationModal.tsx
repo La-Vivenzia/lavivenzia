@@ -1,6 +1,7 @@
 import { useState } from "react";
 import Modal from "./Modal";
 import { supabase } from "@/lib/supabase";
+import { getErrorMessage } from "@/lib/errors";
 
 interface HostRegistrationModalProps {
   isOpen: boolean;
@@ -89,8 +90,8 @@ export default function HostRegistrationModal({ isOpen, onClose }: HostRegistrat
           otherCategory: "",
         });
       }, 2500);
-    } catch (error: any) {
-      console.error("Error submitting host registration:", error?.message || error);
+    } catch (error) {
+      console.error("Error submitting host registration:", getErrorMessage(error));
       setSubmitStatus('error');
     } finally {
       setIsSubmitting(false);
@@ -103,7 +104,7 @@ export default function HostRegistrationModal({ isOpen, onClose }: HostRegistrat
     "block text-[var(--color-gold-primary)] text-[10px] font-semibold tracking-[0.15em] uppercase mb-1.5";
 
   return (
-    <Modal isOpen={isOpen} onClose={onClose}>
+    <Modal isOpen={isOpen} onClose={onClose} label="Become a founding host">
       {/* Header */}
       <div className="text-center mb-6">
         <div className="flex items-center justify-center gap-3 mb-3">

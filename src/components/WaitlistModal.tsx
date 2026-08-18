@@ -1,6 +1,7 @@
 import { useState } from "react";
 import Modal from "./Modal";
 import { supabase } from "@/lib/supabase";
+import { getErrorMessage } from "@/lib/errors";
 
 interface WaitlistModalProps {
   isOpen: boolean;
@@ -30,8 +31,8 @@ export default function WaitlistModal({ isOpen, onClose }: WaitlistModalProps) {
         setSubmitStatus('idle');
         setEmail("");
       }, 2500);
-    } catch (error: any) {
-      console.error("Error submitting waitlist email:", error?.message || error);
+    } catch (error) {
+      console.error("Error submitting waitlist email:", getErrorMessage(error));
       setSubmitStatus('error');
     } finally {
       setIsSubmitting(false);
@@ -39,7 +40,7 @@ export default function WaitlistModal({ isOpen, onClose }: WaitlistModalProps) {
   };
 
   return (
-    <Modal isOpen={isOpen} onClose={onClose}>
+    <Modal isOpen={isOpen} onClose={onClose} label="Join the invite list">
       <div className="text-center mb-8">
         <h2 className="font-serif font-normal text-2xl sm:text-3xl text-[var(--color-ivory)] uppercase tracking-wide mb-2">
           JOIN THE INVITE LIST
@@ -54,7 +55,7 @@ export default function WaitlistModal({ isOpen, onClose }: WaitlistModalProps) {
           <div className="w-16 h-16 rounded-full bg-[#1A1A18] border border-[var(--color-border-gold)] flex items-center justify-center text-[#C6943B] mb-2">
             <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" /></svg>
           </div>
-          <h3 className="text-xl font-serif text-[#E2BA5F]">You're on the list</h3>
+          <h3 className="text-xl font-serif text-[#E2BA5F]">You&apos;re on the list</h3>
           <p className="text-[var(--color-body-text)] text-sm font-light">We will notify you as soon as we launch.</p>
         </div>
       ) : (

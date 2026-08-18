@@ -35,7 +35,7 @@ export default function Header() {
                 height={60}
                 className="h-[56px] w-auto object-contain"
                 style={{ mixBlendMode: "screen" }}
-                priority
+                preload
                 unoptimized
               />
             </Link>
@@ -56,69 +56,12 @@ export default function Header() {
           {/* Desktop CTAs */}
           <div className="hidden lg:flex items-center gap-2.5 shrink-0">
             {/* Primary — gold filled pill */}
-            <button
-              onClick={() => setIsHostModalOpen(true)}
-              className="whitespace-nowrap relative overflow-hidden group"
-              style={{
-                background: "linear-gradient(135deg, #D4A843 0%, #C6943B 50%, #9A7030 100%)",
-                color: "#080806",
-                padding: "8px 18px",
-                borderRadius: "4px",
-                fontSize: "10px",
-                fontWeight: 700,
-                letterSpacing: "0.16em",
-                textTransform: "uppercase",
-                fontFamily: "var(--font-sans)",
-                boxShadow: "0 2px 12px rgba(198,148,59,0.3)",
-                transition: "all 0.25s ease",
-                border: "none",
-                cursor: "pointer",
-              }}
-              onMouseEnter={e => {
-                (e.currentTarget as HTMLButtonElement).style.boxShadow = "0 4px 20px rgba(198,148,59,0.5)";
-                (e.currentTarget as HTMLButtonElement).style.transform = "translateY(-1px)";
-              }}
-              onMouseLeave={e => {
-                (e.currentTarget as HTMLButtonElement).style.boxShadow = "0 2px 12px rgba(198,148,59,0.3)";
-                (e.currentTarget as HTMLButtonElement).style.transform = "translateY(0)";
-              }}
-            >
+            <button onClick={() => setIsHostModalOpen(true)} className="btn-nav-gold">
               Become a Founding Host
             </button>
 
             {/* Secondary — outlined */}
-            <button
-              onClick={() => setIsWaitlistModalOpen(true)}
-              className="whitespace-nowrap"
-              style={{
-                background: "transparent",
-                color: "#D4A843",
-                padding: "7px 18px",
-                borderRadius: "4px",
-                fontSize: "10px",
-                fontWeight: 600,
-                letterSpacing: "0.16em",
-                textTransform: "uppercase",
-                fontFamily: "var(--font-sans)",
-                border: "1px solid rgba(198,148,59,0.45)",
-                transition: "all 0.25s ease",
-                cursor: "pointer",
-              }}
-              onMouseEnter={e => {
-                (e.currentTarget as HTMLButtonElement).style.background = "#800020";
-                (e.currentTarget as HTMLButtonElement).style.borderColor = "#800020";
-                (e.currentTarget as HTMLButtonElement).style.color = "#fcfbf9";
-                (e.currentTarget as HTMLButtonElement).style.boxShadow = "0 4px 20px rgba(128, 0, 32, 0.4)";
-                (e.currentTarget as HTMLButtonElement).style.transform = "translateY(-1px)";
-              }}
-              onMouseLeave={e => {
-                (e.currentTarget as HTMLButtonElement).style.background = "transparent";
-                (e.currentTarget as HTMLButtonElement).style.borderColor = "rgba(198,148,59,0.45)";
-                (e.currentTarget as HTMLButtonElement).style.color = "#D4A843";
-                (e.currentTarget as HTMLButtonElement).style.boxShadow = "none";
-                (e.currentTarget as HTMLButtonElement).style.transform = "translateY(0)";
-              }}
-            >
+            <button onClick={() => setIsWaitlistModalOpen(true)} className="btn-nav-outline">
               Join VIP Traveler Waitlist
             </button>
           </div>
@@ -127,14 +70,19 @@ export default function Header() {
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
             aria-label="Toggle navigation menu"
-            className="lg:hidden text-[var(--color-gold-primary)] p-2 focus:outline-none z-50 ml-auto"
+            aria-expanded={mobileMenuOpen}
+            aria-controls="mobile-nav"
+            className="lg:hidden text-[var(--color-gold-primary)] p-2 z-50 ml-auto"
           >
             {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
           </button>
 
           {/* Mobile Navigation Overlay Drawer */}
           {mobileMenuOpen && (
-            <div className="fixed inset-0 top-[110px] bg-[#080806]/98 backdrop-blur-xl z-40 lg:hidden flex flex-col justify-between p-8 border-b border-[var(--color-border-subtle)] animate-in fade-in slide-in-from-top-4 duration-300 h-[calc(100vh-110px)] overflow-y-auto">
+            <div
+              id="mobile-nav"
+              className="fixed inset-0 top-[110px] bg-[#080806]/98 backdrop-blur-xl z-40 lg:hidden flex flex-col justify-between p-8 border-b border-[var(--color-border-subtle)] anim-drawer-in h-[calc(100vh-110px)] overflow-y-auto"
+            >
               <nav className="flex flex-col gap-6 text-center mt-6 font-sans">
                 {navLinks.map((link) => (
                   <Link

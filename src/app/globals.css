@@ -172,11 +172,156 @@ body {
   box-shadow: 0 6px 28px rgba(128, 0, 32, 0.4);
 }
 
+/* Compact header variants of the two primary buttons. */
+.btn-nav-gold,
+.btn-nav-outline {
+  padding: 8px 18px;
+  border-radius: 4px;
+  font-size: 10px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  font-family: var(--font-sans);
+  white-space: nowrap;
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+
+.btn-nav-gold {
+  background: linear-gradient(135deg, #d4a843 0%, #c6943b 50%, #9a7030 100%);
+  color: #080806;
+  border: none;
+  font-weight: 700;
+  box-shadow: 0 2px 12px rgba(198, 148, 59, 0.3);
+}
+
+.btn-nav-gold:hover {
+  box-shadow: 0 4px 20px rgba(198, 148, 59, 0.5);
+  transform: translateY(-1px);
+}
+
+.btn-nav-outline {
+  background: transparent;
+  color: #d4a843;
+  border: 1px solid rgba(198, 148, 59, 0.45);
+  font-weight: 600;
+}
+
+.btn-nav-outline:hover {
+  background: var(--maroon);
+  border-color: var(--maroon);
+  color: #fcfbf9;
+  box-shadow: 0 4px 20px rgba(128, 0, 32, 0.4);
+  transform: translateY(-1px);
+}
+
 @layer utilities {
   .text-gradient-gold {
     background: linear-gradient(135deg, var(--gold-bright), var(--gold-deep));
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
+  }
+}
+
+/* ---------------------------------------------------------------
+   Keyboard focus
+   Every interactive element gets a visible gold ring. Mouse users
+   never see it (:focus-visible), keyboard users always do.
+   --------------------------------------------------------------- */
+:where(a, button, input, select, textarea, [tabindex]):focus-visible {
+  outline: 2px solid var(--gold-bright);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+/* ---------------------------------------------------------------
+   Animation
+   These replace `animate-in` / `fade-in` / `zoom-in-95` classes that
+   were in the markup but never rendered — tailwindcss-animate is not
+   a dependency, so those utilities resolved to nothing.
+   --------------------------------------------------------------- */
+@keyframes modal-in {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes drawer-in {
+  from {
+    opacity: 0;
+    transform: translateY(-1rem);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes marquee {
+  0% {
+    transform: translateX(0%);
+  }
+  100% {
+    transform: translateX(-33.3333%);
+  }
+}
+
+.anim-modal-in {
+  animation: modal-in 200ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.anim-drawer-in {
+  animation: drawer-in 300ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.anim-fade-in {
+  animation: fade-in 200ms ease-out;
+}
+
+.animate-marquee {
+  animation: marquee 20s linear infinite;
+}
+
+/* ---------------------------------------------------------------
+   Reduced motion
+   Honour the OS-level setting: kill the marquee, the entrance
+   animations, and the hover lifts. Colour changes still apply, so
+   nothing loses its affordance.
+   --------------------------------------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  .btn-gold-primary:hover,
+  .btn-gold-outline:hover,
+  .btn-waitlist:hover,
+  .btn-maroon-primary:hover,
+  .btn-nav-gold:hover,
+  .btn-nav-outline:hover {
+    transform: none;
   }
 }

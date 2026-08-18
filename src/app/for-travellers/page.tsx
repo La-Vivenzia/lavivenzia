@@ -14,7 +14,7 @@ export default function ForTravellersPage() {
           <span className="italic font-light">Just For You</span>
         </h1>
         <p className="text-[var(--color-body-text)] text-sm sm:text-base font-light leading-relaxed font-sans mb-10 max-w-2xl mx-auto">
-          We understand that true luxury isn't about extravagance, but about meaning and personalization. La Vivenzia connects discerning travelers with Maharashtra's most exceptional stays and hidden gems, crafting journeys around how you want to feel. 
+          We understand that true luxury isn&apos;t about extravagance, but about meaning and personalization. La Vivenzia connects discerning travelers with Maharashtra&apos;s most exceptional stays and hidden gems, crafting journeys around how you want to feel.
         </p>
 
         <div className="grid md:grid-cols-3 gap-8 text-left mt-8 w-full max-w-5xl">

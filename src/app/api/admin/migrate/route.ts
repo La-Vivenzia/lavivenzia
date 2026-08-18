@@ -10,7 +10,7 @@ export async function GET() {
   const results: Record<string, string> = {};
 
   // 1. Add status column to host_registrations
-  const { error: e1 } = await supabase.rpc('exec_migration', {
+  await supabase.rpc('exec_migration', {
     sql: `ALTER TABLE host_registrations ADD COLUMN IF NOT EXISTS status TEXT DEFAULT 'Pending';`
   });
 
