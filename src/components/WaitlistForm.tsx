@@ -4,6 +4,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { useState } from "react";
+import { getErrorMessage } from "@/lib/errors";
 import { Lock } from "lucide-react";
 import { supabase } from "@/lib/supabase";
 
@@ -56,9 +57,9 @@ export default function WaitlistForm() {
         throw error;
       }
       setIsSuccess(true);
-    } catch (error: any) {
+    } catch (error) {
       console.error("Waitlist submission error:", error);
-      setErrorMessage(error.message || "Something went wrong. Please try again.");
+      setErrorMessage(getErrorMessage(error) || "Something went wrong. Please try again.");
     } finally {
       setIsSubmitting(false);
     }
@@ -85,7 +86,7 @@ export default function WaitlistForm() {
           Join VIP Traveler<br />Waitlist
         </h2>
         <p className="text-xs sm:text-sm text-[var(--color-muted-text)] font-light tracking-wide font-sans">
-          Get exclusive priority reservations for Maharashtra's premier experiences.
+          Get exclusive priority reservations for Maharashtra&apos;s premier experiences.
         </p>
       </div>
 

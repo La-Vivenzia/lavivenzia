@@ -37,7 +37,7 @@ export default function AboutUsPage() {
                     The idea for La Vivenzia was born during his travels across multiple countries, where he recognized that extraordinary experiences often remained difficult to discover and fragmented to access. Inspired to bridge this gap, he envisioned a premium ecosystem that seamlessly connects discerning travelers with thoughtfully curated experiences, exceptional stays, and unforgettable journeys. 
                   </p>
                   <p>
-                    Today, he leads La Vivenzia's mission to transform travel from endless searching into effortless discovery, where every journey is designed to create lasting memories.
+                    Today, he leads La Vivenzia&apos;s mission to transform travel from endless searching into effortless discovery, where every journey is designed to create lasting memories.
                   </p>
                 </div>
               </div>
@@ -57,7 +57,7 @@ export default function AboutUsPage() {
                     Having successfully led large-scale events such as Skyfest 2026, Deepa combines strategic planning, operational excellence, and a passion for hospitality to deliver experiences that leave a lasting impression.
                   </p>
                   <p>
-                    Inspired by her love for travel and storytelling, she brings a global perspective to every event, ensuring each one reflects La Vivenzia's commitment to thoughtful, world-class experiences.
+                    Inspired by her love for travel and storytelling, she brings a global perspective to every event, ensuring each one reflects La Vivenzia&apos;s commitment to thoughtful, world-class experiences.
                   </p>
                 </div>
               </div>

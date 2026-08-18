@@ -1,5 +1,4 @@
 import Image from "next/image";
-import { MapPin } from "lucide-react";
 
 export default function About() {
   return (

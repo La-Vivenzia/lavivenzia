@@ -49,7 +49,7 @@ export default function TravelerWaitlistForm() {
         throw error;
       }
       setIsSuccess(true);
-    } catch (error: any) {
+    } catch (error) {
       console.error("Submission error:", error);
       // Fallback display if table doesn't exist yet
       setIsSuccess(true);
@@ -79,7 +79,7 @@ export default function TravelerWaitlistForm() {
           Join the VIP<br />Traveler Waitlist
         </h2>
         <p className="text-xs sm:text-sm text-[var(--color-muted-text)] font-light tracking-wide font-sans">
-          Gain priority access to Maharashtra's most exclusive stays, tables, and experiences.
+          Gain priority access to Maharashtra&apos;s most exclusive stays, tables, and experiences.
         </p>
       </div>
 
