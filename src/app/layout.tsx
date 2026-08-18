@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Cinzel, Cormorant_Garamond, Montserrat } from "next/font/google";
+import { siteUrl } from "@/lib/site";
 import "./globals.css";
 
 const cinzel = Cinzel({
@@ -24,13 +25,49 @@ const montserrat = Montserrat({
   display: "swap",
 });
 
+const description =
+  "Join the future of premium travel curation. Apply to list your stays, tables, and experiences on the VivenIQ discovery engine.";
+
 export const metadata: Metadata = {
-  title: "La Vivenzia — Become a Founding Host",
-  description: "Join the future of premium travel curation. Apply to list your stays, tables, and experiences on the VivenIQ discovery engine.",
+  metadataBase: new URL(siteUrl),
+  title: {
+    default: "La Vivenzia — Become a Founding Host",
+    template: "%s | La Vivenzia",
+  },
+  description,
+  applicationName: "La Vivenzia",
+  keywords: [
+    "luxury travel",
+    "curated stays",
+    "Maharashtra travel",
+    "premium experiences",
+    "founding host",
+    "VivenIQ",
+  ],
+  alternates: {
+    canonical: "/",
+  },
+  openGraph: {
+    type: "website",
+    siteName: "La Vivenzia",
+    title: "La Vivenzia — Become a Founding Host",
+    description,
+    url: "/",
+    locale: "en_IN",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "La Vivenzia — Become a Founding Host",
+    description,
+  },
+  robots: {
+    index: true,
+    follow: true,
+  },
   icons: {
-    icon: "/lavivenzia_icon.png",
-    shortcut: "/lavivenzia_icon.png",
-    apple: "/lavivenzia_icon.png",
+    icon: "/lavivenzia_icon_clean.png",
+    shortcut: "/lavivenzia_icon_clean.png",
+    apple: "/lavivenzia_icon_clean.png",
   },
 };
 
@@ -42,7 +79,7 @@ export default function RootLayout({
   return (
     <html lang="en" className="dark">
       <body
-        className={`${cinzel.variable} ${cormorant.variable} ${montserrat.variable} antialiased bg-[#0d0d0d] text-[#fcfbf9] min-h-screen`}
+        className={`${cinzel.variable} ${cormorant.variable} ${montserrat.variable} antialiased bg-background text-ivory min-h-screen`}
       >
         {children}
       </body>

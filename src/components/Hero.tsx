@@ -16,12 +16,12 @@ export default function Hero() {
         <div className="absolute inset-0 z-0">
           <Image
             src="/hero-background.jpg"
-            alt="La Vivenzia Hero Background"
+            alt=""
             fill
+            sizes="100vw"
             className="object-cover object-right opacity-85"
-            priority
-            quality={100}
-            unoptimized
+            preload
+            quality={75}
           />
           {/* Strong left dark panel */}
           <div className="absolute inset-0 bg-gradient-to-r from-[#080806] from-30% via-[#080806]/70 via-60% to-transparent" />
@@ -75,7 +75,7 @@ export default function Hero() {
           </h1>
 
           <p 
-            className="italic text-lg sm:text-xl md:text-2xl tracking-wide whitespace-nowrap mb-8 pt-1"
+            className="italic text-lg sm:text-xl md:text-2xl tracking-wide text-balance sm:whitespace-nowrap mb-8 pt-1"
             style={{
               fontFamily: "var(--font-cormorant)",
               color: "#D7AE63",
@@ -126,14 +126,16 @@ export default function Hero() {
           </div>
 
           {/* Trust badges */}
-          <div className="flex items-center gap-3 mt-5">
-            <span className="text-[#C6943B] text-xs">◆</span>
-            <span className="text-[9px] font-sans tracking-[0.25em] uppercase text-[#C6943B] font-bold">By Invitation Only</span>
-            <span className="text-[#C6943B] text-xs">◆</span>
-            <span className="text-[9px] font-sans tracking-[0.25em] uppercase text-[#C6943B] font-bold">Curated Luxury</span>
-            <span className="text-[#C6943B] text-xs">◆</span>
-            <span className="text-[9px] font-sans tracking-[0.25em] uppercase text-[#C6943B] font-bold">Founding Members Welcome</span>
-          </div>
+          <ul className="flex flex-wrap items-center gap-x-3 gap-y-2 mt-5 list-none">
+            {["By Invitation Only", "Curated Luxury", "Founding Members Welcome"].map((badge) => (
+              <li key={badge} className="flex items-center gap-3">
+                <span className="text-[#C6943B] text-xs" aria-hidden="true">◆</span>
+                <span className="text-[9px] font-sans tracking-[0.25em] uppercase text-[#C6943B] font-bold">
+                  {badge}
+                </span>
+              </li>
+            ))}
+          </ul>
         </div>
       </section>
 
