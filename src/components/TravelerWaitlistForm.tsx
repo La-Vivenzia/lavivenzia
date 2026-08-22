@@ -4,7 +4,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { useState } from "react";
-import { supabase } from "@/lib/supabase";
+import { getErrorMessage } from "@/lib/errors";
 
 const formSchema = z.object({
   fullName: z.string().min(2, "Full name is required"),
@@ -33,26 +33,26 @@ export default function TravelerWaitlistForm() {
     setErrorMessage("");
 
     try {
-      const { error } = await supabase
-        .from('waitlist')
-        .insert([
-          { 
-            name: data.fullName, 
-            email: data.email, 
-            phone: data.phone, 
-            preferences: { city: data.city },
-            source: 'traveler_page_v2'
-          }
-        ]);
+      const res = await fetch('/api/waitlist', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name: data.fullName,
+          email: data.email,
+          phone: data.phone,
+          preferences: { city: data.city },
+          source: 'traveler_page_v2',
+        }),
+      });
 
-      if (error) {
-        throw error;
+      if (!res.ok) {
+        const body = await res.json().catch(() => ({}));
+        throw new Error(body.error || 'Request failed');
       }
       setIsSuccess(true);
     } catch (error) {
-      console.error("Submission error:", error);
-      // Fallback display if table doesn't exist yet
-      setIsSuccess(true);
+      console.error("Waitlist submission error:", getErrorMessage(error));
+      setErrorMessage(getErrorMessage(error) || "Something went wrong. Please try again.");
     } finally {
       setIsSubmitting(false);
     }

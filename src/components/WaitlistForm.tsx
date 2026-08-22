@@ -6,7 +6,6 @@ import * as z from "zod";
 import { useState } from "react";
 import { getErrorMessage } from "@/lib/errors";
 import { Lock } from "lucide-react";
-import { supabase } from "@/lib/supabase";
 
 const formSchema = z.object({
   fullName: z.string().min(2, "Full name is required"),
@@ -34,31 +33,26 @@ export default function WaitlistForm() {
     setIsSubmitting(true);
     setErrorMessage("");
 
-    if (!supabase) {
-      setErrorMessage("Supabase is not configured. Please check your system configuration.");
-      setIsSubmitting(false);
-      return;
-    }
-
     try {
-      const { error } = await supabase
-        .from('waitlist')
-        .insert([
-          {
-            name: data.fullName,
-            email: data.email,
-            phone: data.phone,
-            preferences: { destinations: data.preferredDestinations || null },
-            source: 'traveler_page_v1'
-          }
-        ]);
+      const res = await fetch('/api/waitlist', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name: data.fullName,
+          email: data.email,
+          phone: data.phone,
+          preferences: { destinations: data.preferredDestinations || null },
+          source: 'traveler_page_v1',
+        }),
+      });
 
-      if (error) {
-        throw error;
+      if (!res.ok) {
+        const body = await res.json().catch(() => ({}));
+        throw new Error(body.error || 'Request failed');
       }
       setIsSuccess(true);
     } catch (error) {
-      console.error("Waitlist submission error:", error);
+      console.error("Waitlist submission error:", getErrorMessage(error));
       setErrorMessage(getErrorMessage(error) || "Something went wrong. Please try again.");
     } finally {
       setIsSubmitting(false);

@@ -1,6 +1,5 @@
 import { useState } from "react";
 import Modal from "./Modal";
-import { supabase } from "@/lib/supabase";
 import { getErrorMessage } from "@/lib/errors";
 
 interface HostRegistrationModalProps {
@@ -45,27 +44,34 @@ export default function HostRegistrationModal({ isOpen, onClose }: HostRegistrat
     setSubmitStatus('idle');
 
     try {
-      const { error } = await supabase
-        .from('host_registrations')
-        .insert([
-          { 
-            business_name: formData.businessName,
-            host_name: formData.hostName,
-            business_category: formData.businessCategory === "Other" ? formData.otherCategory : formData.businessCategory,
-            city_location: formData.cityLocation,
-            website_url: formData.websiteUrl,
-            instagram_handle: formData.instagramHandle,
-            phone_number: formData.phoneNumber,
-            email_address: formData.emailAddress,
-            years_in_business: formData.yearsInBusiness,
-            price_range: formData.priceRange,
-            short_description: formData.shortDescription,
-            reason_for_joining: formData.reasonForJoining,
-            contact_method: formData.contactMethod
-          }
-        ]);
+      const res = await fetch('/api/host-registration', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          businessName: formData.businessName,
+          hostName: formData.hostName,
+          businessCategory:
+            formData.businessCategory === "Other"
+              ? formData.otherCategory
+              : formData.businessCategory,
+          cityLocation: formData.cityLocation,
+          websiteUrl: formData.websiteUrl,
+          instagramHandle: formData.instagramHandle,
+          phoneNumber: formData.phoneNumber,
+          emailAddress: formData.emailAddress,
+          yearsInBusiness: formData.yearsInBusiness,
+          priceRange: formData.priceRange,
+          shortDescription: formData.shortDescription,
+          reasonForJoining: formData.reasonForJoining,
+          contactMethod: formData.contactMethod,
+        }),
+      });
 
-      if (error) throw error;
+      if (!res.ok) {
+        const body = await res.json().catch(() => ({}));
+        throw new Error(body.error || 'Request failed');
+      }
+
       
       setSubmitStatus('success');
       // Keep it open for 2 seconds to show success, then close

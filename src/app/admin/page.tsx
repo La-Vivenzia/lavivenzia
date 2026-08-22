@@ -3,7 +3,7 @@
 import { useState, useEffect, useCallback } from 'react';
 import React from 'react';
 import { useRouter } from 'next/navigation';
-import { LogOut, Users, Building2, Search, Download, RefreshCw, ChevronDown, ChevronUp, X } from 'lucide-react';
+import { LogOut, Users, Building2, Search, Download, RefreshCw, ChevronDown, ChevronUp, X, Mail, MailWarning, MailCheck } from 'lucide-react';
 
 // ── Types ──────────────────────────────────────────────────────────────────────
 interface HostRegistration {
@@ -31,11 +31,28 @@ interface WaitlistEntry {
   email: string;
   name?: string;
   phone?: string;
-  preferences?: string;
+  preferences?: unknown;
   source?: string;
 }
 
-type Tab = 'hosts' | 'waitlist';
+interface ContactMessage {
+  id: string;
+  created_at: string;
+  name: string;
+  email: string;
+  subject: string;
+  message: string;
+}
+
+interface SmtpHealth {
+  ok: boolean;
+  reason?: string;
+  host?: string;
+  port?: number;
+  notifyTo?: string;
+}
+
+type Tab = 'hosts' | 'waitlist' | 'contacts';
 type HostId = string;
 type SortField = string;
 type SortDir = 'asc' | 'desc';
@@ -67,6 +84,20 @@ function exportCsv(data: Record<string, unknown>[], filename: string) {
   URL.revokeObjectURL(url);
 }
 
+/** Waitlist preferences is a jsonb column, so it can be an object, a string, or null. */
+function formatPreferences(value: unknown): string {
+  if (value === null || value === undefined || value === '') return '—';
+  if (typeof value === 'string') return value;
+  return Object.entries(value as Record<string, unknown>)
+    .filter(([, v]) => v !== null && v !== undefined && v !== '')
+    .map(([k, v]) => `${k}: ${String(v)}`)
+    .join(', ') || '—';
+}
+
+function replySubject(subject?: string) {
+  return `Re: ${subject || 'Your enquiry'}`;
+}
+
 const STATUS_COLORS: Record<string, string> = {
   Pending:  'bg-yellow-900/30 text-yellow-400 border-yellow-600/30',
   Approved: 'bg-green-900/30  text-green-400  border-green-600/30',
@@ -80,16 +111,22 @@ export default function AdminDashboard() {
 
   const [hosts, setHosts] = useState<HostRegistration[]>([]);
   const [waitlist, setWaitlist] = useState<WaitlistEntry[]>([]);
+  const [contacts, setContacts] = useState<ContactMessage[]>([]);
   const [loadingHosts, setLoadingHosts] = useState(true);
   const [loadingWaitlist, setLoadingWaitlist] = useState(true);
+  const [loadingContacts, setLoadingContacts] = useState(true);
+  const [smtp, setSmtp] = useState<SmtpHealth | null>(null);
 
   const [hostSearch, setHostSearch] = useState('');
   const [waitlistSearch, setWaitlistSearch] = useState('');
+  const [contactSearch, setContactSearch] = useState('');
 
   const [hostSort, setHostSort] = useState<{ field: SortField; dir: SortDir }>({ field: 'created_at', dir: 'desc' });
   const [waitlistSort, setWaitlistSort] = useState<{ field: SortField; dir: SortDir }>({ field: 'created_at', dir: 'desc' });
+  const [contactSort, setContactSort] = useState<{ field: SortField; dir: SortDir }>({ field: 'created_at', dir: 'desc' });
 
   const [expandedHost, setExpandedHost] = useState<HostId | null>(null);
+  const [expandedContact, setExpandedContact] = useState<string | null>(null);
   const [updatingStatus, setUpdatingStatus] = useState<HostId | null>(null);
 
   // ── Data Fetching ──
@@ -109,8 +146,28 @@ export default function AdminDashboard() {
     setLoadingWaitlist(false);
   }, []);
 
+  const fetchContacts = useCallback(async () => {
+    setLoadingContacts(true);
+    const res = await fetch('/api/admin/contacts');
+    const data = await res.json();
+    setContacts(Array.isArray(data) ? data : []);
+    setLoadingContacts(false);
+  }, []);
+
+  // Surfaces a broken mail setup here rather than letting notifications fail silently.
+  const fetchSmtpHealth = useCallback(async () => {
+    try {
+      const res = await fetch('/api/admin/email-check');
+      setSmtp(await res.json());
+    } catch {
+      setSmtp({ ok: false, reason: 'Could not reach the mail health check.' });
+    }
+  }, []);
+
   useEffect(() => { fetchHosts(); }, [fetchHosts]);
   useEffect(() => { fetchWaitlist(); }, [fetchWaitlist]);
+  useEffect(() => { fetchContacts(); }, [fetchContacts]);
+  useEffect(() => { fetchSmtpHealth(); }, [fetchSmtpHealth]);
 
   // ── Logout ──
   const handleLogout = async () => {
@@ -154,11 +211,25 @@ export default function AdminDashboard() {
       return waitlistSort.dir === 'asc' ? String(av).localeCompare(String(bv)) : String(bv).localeCompare(String(av));
     });
 
+  const filteredContacts = contacts
+    .filter(c => {
+      const q = contactSearch.toLowerCase();
+      return !q || [c.name, c.email, c.subject, c.message].some(v => v?.toLowerCase().includes(q));
+    })
+    .sort((a, b) => {
+      const f = contactSort.field as keyof ContactMessage;
+      const av = a[f] ?? ''; const bv = b[f] ?? '';
+      return contactSort.dir === 'asc' ? String(av).localeCompare(String(bv)) : String(bv).localeCompare(String(av));
+    });
+
   const toggleHostSort = (field: string) => {
     setHostSort(prev => ({ field, dir: prev.field === field && prev.dir === 'asc' ? 'desc' : 'asc' }));
   };
   const toggleWaitlistSort = (field: string) => {
     setWaitlistSort(prev => ({ field, dir: prev.field === field && prev.dir === 'asc' ? 'desc' : 'asc' }));
+  };
+  const toggleContactSort = (field: string) => {
+    setContactSort(prev => ({ field, dir: prev.field === field && prev.dir === 'asc' ? 'desc' : 'asc' }));
   };
 
   const SortIcon = ({ field, current }: { field: string; current: { field: string; dir: SortDir } }) => {
@@ -199,13 +270,40 @@ export default function AdminDashboard() {
 
       <main className="max-w-screen-xl mx-auto px-4 sm:px-6 py-8">
 
+        {/* Mail delivery status — every submission also emails the team inbox */}
+        {smtp && (
+          <div className={`mb-6 flex items-start gap-3 rounded-xl border px-4 py-3 text-xs ${
+            smtp.ok
+              ? 'border-[rgba(198,148,59,0.15)] bg-[#0f0e0b] text-[#6b6355]'
+              : 'border-red-900/40 bg-red-950/20 text-red-300'
+          }`}>
+            {smtp.ok
+              ? <MailCheck className="w-4 h-4 mt-0.5 text-[#C6943B] shrink-0" />
+              : <MailWarning className="w-4 h-4 mt-0.5 shrink-0" />}
+            <div>
+              {smtp.ok ? (
+                <>
+                  Email notifications active — new submissions are sent to{' '}
+                  <span className="text-[#C6943B]">{smtp.notifyTo}</span> via {smtp.host}:{smtp.port}.
+                </>
+              ) : (
+                <>
+                  <span className="font-semibold">Email notifications are not being delivered.</span>{' '}
+                  {smtp.reason} Submissions are still saved to the database and listed below.
+                </>
+              )}
+            </div>
+          </div>
+        )}
+
         {/* Stat Cards */}
-        <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-8">
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4 mb-8">
           {[
             { label: 'Total Hosts', value: hosts.length, icon: <Building2 className="w-5 h-5" />, color: '#C6943B' },
             { label: 'Pending', value: hostsByStatus.Pending, icon: <RefreshCw className="w-5 h-5" />, color: '#C6943B' },
             { label: 'Approved', value: hostsByStatus.Approved, icon: <ChevronUp className="w-5 h-5" />, color: '#C6943B' },
             { label: 'Waitlist', value: waitlist.length, icon: <Users className="w-5 h-5" />, color: '#C6943B' },
+            { label: 'Messages', value: contacts.length, icon: <Mail className="w-5 h-5" />, color: '#C6943B' },
           ].map((card) => (
             <div key={card.label} className="bg-[#0f0e0b] border border-[rgba(198,148,59,0.12)] rounded-xl p-5">
               <div className="flex items-center justify-between mb-3">
@@ -222,6 +320,7 @@ export default function AdminDashboard() {
           {([
             { key: 'hosts',    label: 'Host Applications', count: hosts.length },
             { key: 'waitlist', label: 'VIP Waitlist',       count: waitlist.length },
+            { key: 'contacts', label: 'Contact Messages',   count: contacts.length },
           ] as { key: Tab; label: string; count: number }[]).map(tab => (
             <button
               key={tab.key}
@@ -475,7 +574,7 @@ export default function AdminDashboard() {
                         <td className="px-4 py-3 text-[#fcfbf9] font-medium">{entry.email || '—'}</td>
                         <td className="px-4 py-3 text-[#d4c9b0]">{entry.name || '—'}</td>
                         <td className="px-4 py-3 text-[#d4c9b0]">{entry.phone || '—'}</td>
-                        <td className="px-4 py-3 text-[#d4c9b0]">{entry.preferences || '—'}</td>
+                        <td className="px-4 py-3 text-[#d4c9b0]">{formatPreferences(entry.preferences)}</td>
                         <td className="px-4 py-3 text-[#d4c9b0]">{entry.source || '—'}</td>
                       </tr>
                     ))}
@@ -486,6 +585,123 @@ export default function AdminDashboard() {
 
             <div className="px-5 py-3 border-t border-[rgba(198,148,59,0.08)] text-[11px] text-[#6b6355]">
               Showing {filteredWaitlist.length} of {waitlist.length} signups
+            </div>
+          </div>
+        )}
+
+        {/* ── CONTACT MESSAGES TAB ── */}
+        {activeTab === 'contacts' && (
+          <div className="bg-[#0f0e0b] border border-[rgba(198,148,59,0.12)] rounded-xl overflow-hidden">
+            <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3 px-5 py-4 border-b border-[rgba(198,148,59,0.1)]">
+              <div className="relative flex-1 w-full sm:max-w-xs">
+                <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-[#6b6355]" />
+                <input
+                  type="text"
+                  placeholder="Search by name, email, subject..."
+                  value={contactSearch}
+                  onChange={e => setContactSearch(e.target.value)}
+                  className="w-full pl-9 pr-8 py-2 bg-[#080806] border border-[rgba(198,148,59,0.15)] rounded-lg text-[#fcfbf9] placeholder:text-[#6b6355] text-xs focus:outline-none focus:border-[#C6943B] transition-colors"
+                />
+                {contactSearch && (
+                  <button onClick={() => setContactSearch('')} className="absolute right-2.5 top-1/2 -translate-y-1/2 text-[#6b6355] hover:text-[#fcfbf9]">
+                    <X className="w-3 h-3" />
+                  </button>
+                )}
+              </div>
+              <div className="flex items-center gap-2 ml-auto">
+                <button onClick={fetchContacts} className="flex items-center gap-1.5 text-[#6b6355] hover:text-[#C6943B] transition-colors text-xs px-3 py-2 rounded-lg border border-[rgba(198,148,59,0.15)] hover:border-[rgba(198,148,59,0.3)]">
+                  <RefreshCw className="w-3.5 h-3.5" /> Refresh
+                </button>
+                <button
+                  onClick={() => exportCsv(filteredContacts as unknown as Record<string, unknown>[], 'contact-messages.csv')}
+                  className="flex items-center gap-1.5 text-xs px-3 py-2 rounded-lg border border-[rgba(198,148,59,0.3)] text-[#C6943B] hover:bg-[rgba(198,148,59,0.08)] transition-colors"
+                >
+                  <Download className="w-3.5 h-3.5" /> Export CSV
+                </button>
+              </div>
+            </div>
+
+            {loadingContacts ? (
+              <div className="flex items-center justify-center py-20 text-[#6b6355] text-sm">Loading messages…</div>
+            ) : filteredContacts.length === 0 ? (
+              <div className="flex flex-col items-center justify-center py-20 text-[#6b6355]">
+                <Mail className="w-10 h-10 mb-3 opacity-30" />
+                <p className="text-sm">{contactSearch ? 'No results found.' : 'No messages yet.'}</p>
+              </div>
+            ) : (
+              <div className="overflow-x-auto">
+                <table className="w-full text-xs">
+                  <thead>
+                    <tr className="border-b border-[rgba(198,148,59,0.08)]">
+                      {[
+                        { label: 'Date',    field: 'created_at' },
+                        { label: 'Name',    field: 'name' },
+                        { label: 'Email',   field: 'email' },
+                        { label: 'Subject', field: 'subject' },
+                        { label: 'Message', field: 'message' },
+                        { label: '',        field: '' },
+                      ].map(col => (
+                        <th
+                          key={col.field || 'expand'}
+                          onClick={() => col.field && toggleContactSort(col.field)}
+                          className={`text-left px-4 py-3 text-[10px] uppercase tracking-widest text-[#6b6355] font-semibold whitespace-nowrap select-none ${col.field ? 'cursor-pointer hover:text-[#C6943B]' : ''}`}
+                        >
+                          <span className="flex items-center gap-1">
+                            {col.label}
+                            {col.field && <SortIcon field={col.field} current={contactSort} />}
+                          </span>
+                        </th>
+                      ))}
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {filteredContacts.map(msg => (
+                      <React.Fragment key={msg.id}>
+                        <tr
+                          onClick={() => setExpandedContact(expandedContact === msg.id ? null : msg.id)}
+                          className="border-b border-[rgba(255,255,255,0.04)] hover:bg-[rgba(198,148,59,0.04)] cursor-pointer transition-colors"
+                        >
+                          <td className="px-4 py-3 text-[#6b6355] whitespace-nowrap">{formatDate(msg.created_at)}</td>
+                          <td className="px-4 py-3 text-[#fcfbf9] font-medium whitespace-nowrap">{msg.name || '—'}</td>
+                          <td className="px-4 py-3 text-[#d4c9b0]">
+                            <a
+                              href={`mailto:${msg.email}?subject=${encodeURIComponent(replySubject(msg.subject))}`}
+                              onClick={e => e.stopPropagation()}
+                              className="hover:text-[#C6943B] transition-colors"
+                            >
+                              {msg.email || '—'}
+                            </a>
+                          </td>
+                          <td className="px-4 py-3 text-[#d4c9b0]">{msg.subject || '—'}</td>
+                          <td className="px-4 py-3 text-[#6b6355] max-w-xs truncate">{msg.message || '—'}</td>
+                          <td className="px-4 py-3">
+                            <ChevronDown className={`w-4 h-4 text-[#6b6355] transition-transform ${expandedContact === msg.id ? 'rotate-180' : ''}`} />
+                          </td>
+                        </tr>
+
+                        {expandedContact === msg.id && (
+                          <tr className="border-b border-[rgba(198,148,59,0.1)]">
+                            <td colSpan={6} className="px-6 py-5 bg-[#080806]">
+                              <p className="text-[10px] uppercase tracking-widest text-[#6b6355] mb-2">Message</p>
+                              <p className="text-[#d4c9b0] text-xs leading-relaxed whitespace-pre-wrap">{msg.message}</p>
+                              <a
+                                href={`mailto:${msg.email}?subject=${encodeURIComponent(replySubject(msg.subject))}`}
+                                className="inline-flex items-center gap-1.5 mt-5 px-3 py-1.5 rounded text-[10px] font-semibold uppercase tracking-wider border border-[rgba(198,148,59,0.3)] text-[#C6943B] hover:bg-[rgba(198,148,59,0.08)] transition-colors"
+                              >
+                                <Mail className="w-3 h-3" /> Reply by email
+                              </a>
+                            </td>
+                          </tr>
+                        )}
+                      </React.Fragment>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            )}
+
+            <div className="px-5 py-3 border-t border-[rgba(198,148,59,0.08)] text-[11px] text-[#6b6355]">
+              Showing {filteredContacts.length} of {contacts.length} messages
             </div>
           </div>
         )}

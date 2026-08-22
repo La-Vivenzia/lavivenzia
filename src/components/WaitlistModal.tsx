@@ -1,6 +1,5 @@
 import { useState } from "react";
 import Modal from "./Modal";
-import { supabase } from "@/lib/supabase";
 import { getErrorMessage } from "@/lib/errors";
 
 interface WaitlistModalProps {
@@ -19,11 +18,17 @@ export default function WaitlistModal({ isOpen, onClose }: WaitlistModalProps) {
     setSubmitStatus('idle');
     
     try {
-      const { error } = await supabase
-        .from('waitlist')
-        .insert([{ email, source: 'vip_modal' }]);
-        
-      if (error) throw error;
+      const res = await fetch('/api/waitlist', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, source: 'vip_modal' }),
+      });
+
+      if (!res.ok) {
+        const body = await res.json().catch(() => ({}));
+        throw new Error(body.error || 'Request failed');
+      }
+
       
       setSubmitStatus('success');
       setTimeout(() => {
