@@ -316,7 +316,7 @@ export default function AdminDashboard() {
         </div>
 
         {/* Tabs */}
-        <div className="flex items-center gap-1 mb-6 bg-[#0f0e0b] border border-[rgba(198,148,59,0.12)] rounded-xl p-1 w-fit">
+        <div className="flex flex-wrap items-center gap-1 mb-6 bg-[#0f0e0b] border border-[rgba(198,148,59,0.12)] rounded-xl p-1 w-full sm:w-fit">
           {([
             { key: 'hosts',    label: 'Host Applications', count: hosts.length },
             { key: 'waitlist', label: 'VIP Waitlist',       count: waitlist.length },
@@ -325,7 +325,7 @@ export default function AdminDashboard() {
             <button
               key={tab.key}
               onClick={() => setActiveTab(tab.key)}
-              className={`px-5 py-2 rounded-lg text-xs font-semibold tracking-wider uppercase transition-all ${
+              className={`flex-1 sm:flex-none whitespace-nowrap px-3 sm:px-5 py-2 rounded-lg text-[11px] sm:text-xs font-semibold tracking-wider uppercase transition-all ${
                 activeTab === tab.key
                   ? 'text-[#080806]'
                   : 'text-[#6b6355] hover:text-[#fcfbf9]'
