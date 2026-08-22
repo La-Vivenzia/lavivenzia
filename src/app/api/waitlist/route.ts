@@ -5,6 +5,9 @@ import { supabaseAdmin } from '@/lib/supabase-admin';
 import { sendSubmissionNotification } from '@/lib/email';
 import { getErrorMessage } from '@/lib/errors';
 
+/** Postgres unique_violation, raised when the email is already on the list. */
+const DUPLICATE_EMAIL = '23505';
+
 const waitlistSchema = z.object({
   email: z.string().trim().email('A valid email address is required').max(200),
   name: z.string().trim().max(120).optional(),
@@ -45,7 +48,15 @@ export async function POST(request: NextRequest) {
         },
       ]);
 
-    if (error) throw error;
+    if (error) {
+      // waitlist.email is UNIQUE. Someone signing up twice is already on the
+      // list, which is a success from their side — not an error to show them.
+      // No notification either: the team was told the first time.
+      if (error.code === DUPLICATE_EMAIL) {
+        return NextResponse.json({ success: true, duplicate: true, emailed: false });
+      }
+      throw error;
+    }
   } catch (error) {
     console.error('[waitlist] failed to save signup:', getErrorMessage(error));
     return NextResponse.json(
@@ -55,8 +66,9 @@ export async function POST(request: NextRequest) {
   }
 
   const emailResult = await sendSubmissionNotification({
-    kind: 'VIP Waitlist',
+    kind: 'VIP Waitlist Signup',
     subject: `New VIP waitlist signup: ${email}`,
+    headline: name || email,
     replyTo: email,
     replyToName: name,
     fields: [

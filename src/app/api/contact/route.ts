@@ -47,15 +47,16 @@ export async function POST(request: NextRequest) {
   // The lead is safe in the database at this point, so a mail failure is
   // logged and reported but never fails the request.
   const emailResult = await sendSubmissionNotification({
-    kind: 'Contact Form',
+    kind: 'Contact Enquiry',
     subject: `New contact enquiry: ${subject}`,
+    headline: subject,
     replyTo: email,
     replyToName: name,
     fields: [
-      { label: 'Name', value: name },
+      { label: 'From', value: name },
       { label: 'Email', value: email },
       { label: 'Subject', value: subject },
-      { label: 'Message', value: message },
+      { label: 'Message', value: message, long: true },
     ],
   });
 

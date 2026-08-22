@@ -72,6 +72,7 @@ export async function POST(request: NextRequest) {
   const emailResult = await sendSubmissionNotification({
     kind: 'Host Application',
     subject: `New host application: ${form.businessName}`,
+    headline: form.businessName,
     replyTo: form.emailAddress,
     replyToName: form.hostName,
     fields: [
@@ -86,8 +87,8 @@ export async function POST(request: NextRequest) {
       { label: 'Years in Business', value: form.yearsInBusiness },
       { label: 'Price Range', value: form.priceRange },
       { label: 'Preferred Contact', value: form.contactMethod },
-      { label: 'Description', value: form.shortDescription },
-      { label: 'Why Join', value: form.reasonForJoining },
+      { label: 'Description', value: form.shortDescription, long: true },
+      { label: 'Why Join La Vivenzia', value: form.reasonForJoining, long: true },
     ],
   });
 
