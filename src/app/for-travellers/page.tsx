@@ -1,5 +1,6 @@
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import TravelerWaitlistForm from "@/components/TravelerWaitlistForm";
 
 export default function ForTravellersPage() {
   return (
@@ -36,6 +37,11 @@ export default function ForTravellersPage() {
               From the moment you begin planning to the time you return home, every detail is thoughtfully managed to ensure a stress-free escape.
             </p>
           </div>
+        </div>
+
+        {/* VIP waitlist signup — the page previously had no way to join. */}
+        <div id="waitlist" className="w-full max-w-xl mx-auto mt-20 scroll-mt-32">
+          <TravelerWaitlistForm />
         </div>
 
       </div>

@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import { Mail, Phone } from "lucide-react";
-import { supabase } from "@/lib/supabase";
+import { getErrorMessage } from "@/lib/errors";
 
 export default function Contact() {
   const [formData, setFormData] = useState({
@@ -25,23 +25,23 @@ export default function Contact() {
     setSubmitStatus('idle');
 
     try {
-      const { error } = await supabase
-        .from('contacts')
-        .insert([
-          { 
-            name: formData.name, 
-            email: formData.email, 
-            subject: formData.subject, 
-            message: formData.message 
-          }
-        ]);
+      // Posted to our own API rather than Supabase directly: RLS blocks anon
+      // inserts, and the route also emails the team the new enquiry.
+      const res = await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData),
+      });
 
-      if (error) throw error;
-      
+      if (!res.ok) {
+        const body = await res.json().catch(() => ({}));
+        throw new Error(body.error || 'Request failed');
+      }
+
       setSubmitStatus('success');
       setFormData({ name: "", email: "", subject: "", message: "" });
     } catch (error) {
-      console.error('Error submitting form:', error);
+      console.error('Error submitting contact form:', getErrorMessage(error));
       setSubmitStatus('error');
     } finally {
       setIsSubmitting(false);
