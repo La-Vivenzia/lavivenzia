@@ -1,3 +1,4 @@
+import Script from "next/script";
 import type { Metadata } from "next";
 import { Cinzel, Cormorant_Garamond, Montserrat } from "next/font/google";
 import { siteUrl } from "@/lib/site";
@@ -82,6 +83,19 @@ export default function RootLayout({
         className={`${cinzel.variable} ${cormorant.variable} ${montserrat.variable} antialiased bg-background text-ivory min-h-screen`}
       >
         {children}
+        <Script
+          src="https://www.googletagmanager.com/gtag/js?id=G-R1DVQSKCHH"
+          strategy="afterInteractive"
+        />
+        <Script id="google-analytics" strategy="afterInteractive">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+
+            gtag('config', 'G-R1DVQSKCHH');
+          `}
+        </Script>
       </body>
     </html>
   );
