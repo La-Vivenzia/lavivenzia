@@ -78,7 +78,15 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="dark">
+    <html lang="en" className="dark" suppressHydrationWarning>
+      <head>
+        {/* Runs before first paint: hides the welcome intro for visitors who already saw it this session. */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `try{if(sessionStorage.getItem("lv_welcomed")==="1")document.documentElement.setAttribute("data-lv-welcomed","")}catch(e){}`,
+          }}
+        />
+      </head>
       <body
         className={`${cinzel.variable} ${cormorant.variable} ${montserrat.variable} antialiased bg-background text-ivory min-h-screen`}
       >

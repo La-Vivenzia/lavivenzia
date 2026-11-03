@@ -9,6 +9,7 @@ import PanoramicCarousel from "@/components/PanoramicCarousel";
 import Viveniq from "@/components/Viveniq";
 import ComingSoon from "@/components/ComingSoon";
 import Footer from "@/components/Footer";
+import WelcomeAnimation from "@/components/WelcomeAnimation";
 import { X } from "lucide-react";
 
 export default function Home() {
@@ -16,6 +17,9 @@ export default function Home() {
 
   return (
     <main className="min-h-screen bg-[#080806] text-[#FAF8F5] selection:bg-[#D7AE63] selection:text-[#080806]">
+      {/* 0. Cinematic welcome curtain (once per session) */}
+      <WelcomeAnimation />
+
       {/* 1. Header with TopBanner & Official Brand Identity */}
       <Header />
 
