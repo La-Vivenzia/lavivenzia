@@ -33,21 +33,21 @@ export default function TravelerWaitlistForm() {
     setErrorMessage("");
 
     try {
-      const res = await fetch('/api/waitlist', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+      const res = await fetch("/api/waitlist", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           name: data.fullName,
           email: data.email,
           phone: data.phone,
           preferences: { city: data.city },
-          source: 'traveler_page_v2',
+          source: "traveler_page_v2",
         }),
       });
 
       if (!res.ok) {
         const body = await res.json().catch(() => ({}));
-        throw new Error(body.error || 'Request failed');
+        throw new Error(body.error || "Request failed");
       }
       setIsSuccess(true);
     } catch (error) {
@@ -60,85 +60,115 @@ export default function TravelerWaitlistForm() {
 
   if (isSuccess) {
     return (
-      <div className="bg-[var(--color-surface-warm)] border border-[var(--color-border-gold)] p-8 text-center shadow-2xl relative overflow-hidden rounded-md">
-        <h3 className="font-serif text-3xl sm:text-4xl text-[var(--color-ivory)] mb-4 font-normal">Welcome Aboard</h3>
-        <p className="text-sm sm:text-base text-[var(--color-body-text)] font-light leading-relaxed">
-          You are officially on the VIP Traveler Waitlist. We will notify you as soon as early access opens.
+      <div className="bg-[#100F0C] border border-[#D7AE63]/40 p-8 sm:p-12 rounded-2xl text-center shadow-2xl">
+        <div className="w-12 h-12 rounded-full bg-[#181612] border border-[#D7AE63] text-[#D7AE63] flex items-center justify-center mx-auto mb-4 text-xl">
+          ✓
+        </div>
+        <h3 
+          className="text-2xl font-normal text-[#FAF8F5] mb-2"
+          style={{ fontFamily: 'var(--font-cormorant), Georgia, serif' }}
+        >
+          Priority Request Received
+        </h3>
+        <p className="text-xs sm:text-sm font-sans text-[#A8A398] max-w-md mx-auto leading-relaxed">
+          Thank you for joining our private traveler circle. We will reach out with your exclusive member credentials as launch slots open.
         </p>
       </div>
     );
   }
 
   return (
-    <div className="bg-[#0D0C09]/95 backdrop-blur-xl border border-[var(--color-border-gold)] p-6 sm:p-8 lg:p-10 shadow-2xl relative overflow-hidden rounded-md">
-      <div className="text-center mb-6 sm:mb-8 relative z-10">
-        <p className="text-[var(--color-gold-light)] text-xs font-semibold tracking-[0.2em] uppercase mb-3 font-sans">
-          VIP Traveler Access
-        </p>
-        <h2 className="font-serif font-medium text-2xl sm:text-3xl md:text-[34px] leading-tight text-[var(--color-ivory)] mb-3">
-          Join the VIP<br />Traveler Waitlist
-        </h2>
-        <p className="text-xs sm:text-sm text-[var(--color-muted-text)] font-light tracking-wide font-sans">
-          Gain priority access to Maharashtra&apos;s most exclusive stays, tables, and experiences.
+    <div className="bg-[#100F0C] border border-white/[0.08] p-8 sm:p-12 rounded-2xl shadow-2xl text-left">
+      <div className="mb-8">
+        <span className="text-[10px] font-sans font-bold tracking-[0.22em] text-[#D7AE63] uppercase block mb-2">
+          EXCLUSIVE ACCESS INVITATION
+        </span>
+        <h3 
+          className="text-2xl sm:text-3xl font-normal text-[#FAF8F5]"
+          style={{ fontFamily: 'var(--font-cormorant), Georgia, serif' }}
+        >
+          Request Priority Member Access
+        </h3>
+        <p className="text-xs sm:text-sm font-sans font-light text-[#9E988D] mt-2">
+          Join our pre-launch list to receive curated invites, unlisted properties, and private tasting experiences.
         </p>
       </div>
 
-      {errorMessage && (
-        <div className="bg-red-900/20 border border-red-500/50 p-3 mb-6 text-center text-red-200 text-xs sm:text-sm font-sans">
-          {errorMessage}
-        </div>
-      )}
-
-      <form onSubmit={handleSubmit(onSubmit)} className="space-y-4 relative z-10 font-sans">
+      <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
         <div>
+          <label className="block text-[11px] font-sans tracking-wider uppercase text-[#C5C0B6] mb-1.5">
+            Full Name *
+          </label>
           <input
             {...register("fullName")}
             type="text"
-            placeholder="Your Full Name *"
-            className="w-full bg-[#100E0A] border border-[var(--color-border-subtle)] px-4 py-3.5 text-sm text-[var(--color-ivory)] placeholder-[var(--color-muted-text)] focus:outline-none focus:border-[var(--color-gold-muted)] transition-colors font-light tracking-wide rounded-sm"
+            placeholder="e.g. Karan Patil"
+            className="w-full px-4 py-3 rounded-xl bg-[#161411] border border-white/[0.08] text-sm text-[#FAF8F5] placeholder-[#6E6A62] focus:outline-none focus:border-[#D7AE63] transition-colors"
           />
-          {errors.fullName && <p className="text-red-400 text-xs mt-1">{errors.fullName.message}</p>}
+          {errors.fullName && (
+            <p className="text-xs text-red-400 mt-1">{errors.fullName.message}</p>
+          )}
+        </div>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+          <div>
+            <label className="block text-[11px] font-sans tracking-wider uppercase text-[#C5C0B6] mb-1.5">
+              Email Address *
+            </label>
+            <input
+              {...register("email")}
+              type="email"
+              placeholder="karan@example.com"
+              className="w-full px-4 py-3 rounded-xl bg-[#161411] border border-white/[0.08] text-sm text-[#FAF8F5] placeholder-[#6E6A62] focus:outline-none focus:border-[#D7AE63] transition-colors"
+            />
+            {errors.email && (
+              <p className="text-xs text-red-400 mt-1">{errors.email.message}</p>
+            )}
+          </div>
+
+          <div>
+            <label className="block text-[11px] font-sans tracking-wider uppercase text-[#C5C0B6] mb-1.5">
+              Phone Number *
+            </label>
+            <input
+              {...register("phone")}
+              type="tel"
+              placeholder="+91 98765 43210"
+              className="w-full px-4 py-3 rounded-xl bg-[#161411] border border-white/[0.08] text-sm text-[#FAF8F5] placeholder-[#6E6A62] focus:outline-none focus:border-[#D7AE63] transition-colors"
+            />
+            {errors.phone && (
+              <p className="text-xs text-red-400 mt-1">{errors.phone.message}</p>
+            )}
+          </div>
         </div>
 
         <div>
-          <input
-            {...register("email")}
-            type="email"
-            placeholder="Email Address *"
-            className="w-full bg-[#100E0A] border border-[var(--color-border-subtle)] px-4 py-3.5 text-sm text-[var(--color-ivory)] placeholder-[var(--color-muted-text)] focus:outline-none focus:border-[var(--color-gold-muted)] transition-colors font-light tracking-wide rounded-sm"
-          />
-          {errors.email && <p className="text-red-400 text-xs mt-1">{errors.email.message}</p>}
-        </div>
-
-        <div>
-          <input
-            {...register("phone")}
-            type="tel"
-            placeholder="Phone Number *"
-            className="w-full bg-[#100E0A] border border-[var(--color-border-subtle)] px-4 py-3.5 text-sm text-[var(--color-ivory)] placeholder-[var(--color-muted-text)] focus:outline-none focus:border-[var(--color-gold-muted)] transition-colors font-light tracking-wide rounded-sm"
-          />
-          {errors.phone && <p className="text-red-400 text-xs mt-1">{errors.phone.message}</p>}
-        </div>
-
-        <div>
+          <label className="block text-[11px] font-sans tracking-wider uppercase text-[#C5C0B6] mb-1.5">
+            Current City / Location *
+          </label>
           <input
             {...register("city")}
             type="text"
-            placeholder="City / Primary Location *"
-            className="w-full bg-[#100E0A] border border-[var(--color-border-subtle)] px-4 py-3.5 text-sm text-[var(--color-ivory)] placeholder-[var(--color-muted-text)] focus:outline-none focus:border-[var(--color-gold-muted)] transition-colors font-light tracking-wide rounded-sm"
+            placeholder="e.g. Mumbai, Pune, Alibaug"
+            className="w-full px-4 py-3 rounded-xl bg-[#161411] border border-white/[0.08] text-sm text-[#FAF8F5] placeholder-[#6E6A62] focus:outline-none focus:border-[#D7AE63] transition-colors"
           />
-          {errors.city && <p className="text-red-400 text-xs mt-1">{errors.city.message}</p>}
+          {errors.city && (
+            <p className="text-xs text-red-400 mt-1">{errors.city.message}</p>
+          )}
         </div>
+
+        {errorMessage && (
+          <p className="text-xs text-red-400">{errorMessage}</p>
+        )}
 
         <button
           type="submit"
           disabled={isSubmitting}
-          className="w-full bg-[#B8860B] hover:bg-[#D4AF37] text-black font-semibold text-xs sm:text-sm tracking-[0.2em] uppercase py-4 transition-colors disabled:opacity-70 mt-4 rounded-sm shadow-md"
+          className="w-full py-3.5 rounded-full bg-[#E4DCD1] hover:bg-white text-[#14120E] text-xs font-semibold tracking-wider uppercase font-sans transition-all duration-300 shadow-md hover:translate-y-[-1px] mt-2"
         >
-          {isSubmitting ? "Joining Waitlist..." : "Join VIP Traveler Waitlist"}
+          {isSubmitting ? "Submitting..." : "Request Exclusive Access"}
         </button>
       </form>
     </div>
   );
 }
-

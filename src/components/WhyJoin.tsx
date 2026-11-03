@@ -1,85 +1,98 @@
+"use client";
+
 import { Diamond, ShieldCheck, Sparkles, Megaphone, CalendarCheck, LineChart, Users } from "lucide-react";
-import Image from "next/image";
 
 const features = [
   {
-    icon: <Diamond className="w-6 h-6 text-[var(--gold-bright)] mb-4 mx-auto" strokeWidth={1.5} />,
-    title: "Premium Audience",
-    description: "Reach high-intent customers seeking unique & premium experiences.",
+    icon: <Diamond className="w-5 h-5 text-[#D7AE63]" strokeWidth={1.5} />,
+    title: "Discerning Audience",
+    description: "Reach verified high-net-worth guests seeking authentic, private, and premium escapes.",
   },
   {
-    icon: <ShieldCheck className="w-6 h-6 text-[var(--gold-bright)] mb-4 mx-auto" strokeWidth={1.5} />,
+    icon: <ShieldCheck className="w-5 h-5 text-[#D7AE63]" strokeWidth={1.5} />,
     title: "Curated, Not Crowded",
-    description: "We carefully curate every listing to maintain the highest quality standards.",
+    description: "We strictly limit our collection to maintain exclusivity and prevent price-competition dilution.",
   },
   {
-    icon: <Sparkles className="w-6 h-6 text-[var(--gold-bright)] mb-4 mx-auto" strokeWidth={1.5} />,
-    title: "AI-Powered Discovery",
-    description: "Our future AI engine matches your experience with the right audience, faster.",
+    icon: <Sparkles className="w-5 h-5 text-[#D7AE63]" strokeWidth={1.5} />,
+    title: "Viveniq AI Discovery",
+    description: "Our proprietary engine matches your property with travelers based on style and mood, not endless searching.",
   },
   {
-    icon: <Megaphone className="w-6 h-6 text-[var(--gold-bright)] mb-4 mx-auto" strokeWidth={1.5} />,
-    title: "Marketing Support",
-    description: "Featured placements, storytelling, and campaigns to grow your brand.",
+    icon: <Megaphone className="w-5 h-5 text-[#D7AE63]" strokeWidth={1.5} />,
+    title: "Bespoke Storytelling",
+    description: "Dedicated editorial features, photo curation, and brand highlights across private member channels.",
   },
   {
-    icon: <CalendarCheck className="w-6 h-6 text-[var(--gold-bright)] mb-4 mx-auto" strokeWidth={1.5} />,
-    title: "Seamless Bookings",
-    description: "Receive direct bookings through our premium booking platform.",
+    icon: <CalendarCheck className="w-5 h-5 text-[#D7AE63]" strokeWidth={1.5} />,
+    title: "Host Autonomy",
+    description: "Retain 100% control over your dates, rules, pricing, and guest acceptance.",
   },
   {
-    icon: <LineChart className="w-6 h-6 text-[var(--gold-bright)] mb-4 mx-auto" strokeWidth={1.5} />,
-    title: "Insights & Analytics",
-    description: "Track performance, customer engagement, and optimize your offerings.",
+    icon: <LineChart className="w-5 h-5 text-[#D7AE63]" strokeWidth={1.5} />,
+    title: "Founding Host Economics",
+    description: "Enjoy zero platform commission during the launch period and preferential lifetime benefits.",
   },
   {
-    icon: <Users className="w-6 h-6 text-[var(--gold-bright)] mb-4 mx-auto" strokeWidth={1.5} />,
-    title: "Community Access",
-    description: "Be part of an exclusive network of top hosts and creators.",
+    icon: <Users className="w-5 h-5 text-[#D7AE63]" strokeWidth={1.5} />,
+    title: "Inner Circle Community",
+    description: "Collaborate directly with top villa owners, restaurateurs, and sommeliers across Maharashtra.",
   },
 ];
 
 export default function WhyJoin() {
   return (
-    <section className="relative py-16 sm:py-20 lg:py-24 border-b border-[var(--line-soft)] overflow-hidden">
-      {/* Background Image */}
-      <div className="absolute inset-0 z-0">
-        <Image
-          src="https://images.unsplash.com/photo-1507652313519-d4e9174996cb?q=80&w=2000&auto=format&fit=crop"
-          alt="Why Join Background"
-          fill
-          className="object-cover object-center opacity-30"
-          unoptimized
-        />
-        <div className="absolute inset-0 bg-gradient-to-b from-[#0d0d0d] via-[#161616]/90 to-[#0d0d0d]" />
-      </div>
-
-      <div className="container mx-auto px-4 sm:px-6 relative z-10">
-        <div className="text-center mb-12 sm:mb-16">
-          <div className="eyebrow mb-3">
-            WHY JOIN LA VIVENZIA?
+    <section className="bg-[#0A0907] py-20 lg:py-28 border-b border-white/[0.06] relative overflow-hidden">
+      <div className="max-w-[1440px] mx-auto px-6 sm:px-8 lg:px-12 relative z-10">
+        
+        {/* Section Header */}
+        <div className="text-center max-w-2xl mx-auto mb-16">
+          <div className="flex items-center justify-center gap-3 mb-4">
+            <span className="w-8 h-[1px] bg-[#8A857D]" />
+            <span className="text-[11px] font-sans tracking-[0.25em] text-[#A6A196] uppercase font-semibold">
+              EXCLUSIVE ADVANTAGES
+            </span>
+            <span className="w-8 h-[1px] bg-[#8A857D]" />
           </div>
-          <h2 className="font-serif font-normal text-3xl sm:text-4xl md:text-5xl text-[#fcfbf9] leading-tight px-2">
-            Built for Hosts. <span className="ital font-normal">Designed for Growth.</span>
+
+          <h2 
+            className="text-4xl sm:text-5xl lg:text-6xl font-normal text-[#FAF8F5] mb-6 leading-tight tracking-tight"
+            style={{ fontFamily: 'var(--font-cormorant), "Cormorant Garamond", Georgia, serif' }}
+          >
+            Why Partner With <br />
+            <span className="text-[#C5B499] italic">La Vivenzia</span>
           </h2>
+
+          <p className="text-sm font-sans font-light text-[#A8A398] leading-relaxed">
+            We are building an ecosystem designed to honor hospitality creators, villa owners, and culinary visionaries with uncompromising respect.
+          </p>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-7 gap-6 lg:gap-4 lg:divide-x divide-[var(--line-soft)]">
-          {features.map((feature, idx) => (
-            <div 
-              key={idx} 
-              className="flex flex-col items-center text-center px-3 lg:first:pl-0 lg:last:pr-0 bg-[#161616]/60 lg:bg-transparent p-6 lg:p-0 border lg:border-none border-[var(--line-soft)] rounded-md"
+        {/* Feature Grid */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          {features.map((feat) => (
+            <div
+              key={feat.title}
+              className="bg-[#12100C] border border-white/[0.08] hover:border-[#D7AE63]/50 rounded-2xl p-7 transition-all duration-300 hover:shadow-[0_8px_32px_rgba(0,0,0,0.5)] flex flex-col justify-between"
             >
-              {feature.icon}
-              <h3 className="text-[var(--gold-bright)] text-sm sm:text-base font-serif font-medium mb-2 leading-snug">
-                {feature.title}
-              </h3>
-              <p className="text-[#cfc8bc] text-xs sm:text-sm leading-relaxed font-light font-sans">
-                {feature.description}
-              </p>
+              <div>
+                <div className="w-10 h-10 rounded-full bg-[#1A1813] border border-[#2D281F] flex items-center justify-center mb-5">
+                  {feat.icon}
+                </div>
+                <h3 
+                  className="text-xl font-normal text-[#FAF8F5] tracking-wide mb-3"
+                  style={{ fontFamily: 'var(--font-cormorant), Georgia, serif' }}
+                >
+                  {feat.title}
+                </h3>
+                <p className="text-xs sm:text-sm font-sans font-light text-[#9E988D] leading-relaxed">
+                  {feat.description}
+                </p>
+              </div>
             </div>
           ))}
         </div>
+
       </div>
     </section>
   );

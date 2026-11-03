@@ -1,3 +1,5 @@
+"use client";
+
 import Header from "@/components/Header";
 import About from "@/components/About";
 import Footer from "@/components/Footer";
@@ -5,51 +7,85 @@ import Image from "next/image";
 
 export default function AboutUsPage() {
   return (
-    <main className="min-h-screen bg-[#080806] text-[#fcfbf9]">
+    <main className="min-h-screen bg-[#080806] text-[#FAF8F5]">
       <Header />
-      <div className="pt-20">
+      
+      <div className="pt-24">
         <About />
       </div>
 
-      <section className="bg-[#080806] py-16 sm:py-24 border-b border-[var(--color-border-subtle)] text-center">
-        <div className="container mx-auto px-4 sm:px-6">
-          <div className="text-[10px] font-sans font-semibold tracking-[0.4em] uppercase text-[#C6943B] mb-4">
-            LEADERSHIP
-          </div>
-          <h2 className="font-serif font-normal text-3xl sm:text-4xl text-[#E2BA5F] mb-12">Meet the Team</h2>
+      <section className="bg-[#0A0907] py-24 border-b border-white/[0.06]">
+        <div className="max-w-[1440px] mx-auto px-6 sm:px-8 lg:px-12">
           
-          <div className="flex flex-col gap-20 md:gap-32 max-w-6xl mx-auto mt-16">
-            {/* Tejas */}
-            <div className="grid md:grid-cols-12 gap-8 md:gap-16 items-center group">
-              <div className="md:col-span-5 relative w-full aspect-[4/5] overflow-hidden rounded-sm border border-[var(--color-border-gold)]/30">
-                <Image src="/tejasnatani.png" alt="Tejas Natani" fill className="object-cover object-[70%_center] md:group-hover:scale-105 transition-transform duration-[2s]" />
-                <div className="absolute inset-0 bg-gradient-to-t from-[#080806] via-transparent to-transparent opacity-50" />
+          <div className="text-center max-w-xl mx-auto mb-20">
+            <div className="flex items-center justify-center gap-3 mb-4">
+              <span className="w-8 h-[1px] bg-[#8A857D]" />
+              <span className="text-[11px] font-sans tracking-[0.25em] text-[#A6A196] uppercase font-semibold">
+                LEADERSHIP & VISION
+              </span>
+              <span className="w-8 h-[1px] bg-[#8A857D]" />
+            </div>
+            <h2 
+              className="text-4xl sm:text-5xl font-normal text-[#FAF8F5] tracking-tight"
+              style={{ fontFamily: 'var(--font-cormorant), "Cormorant Garamond", Georgia, serif' }}
+            >
+              The Minds Behind <br />
+              <span className="text-[#C5B499] italic">La Vivenzia</span>
+            </h2>
+          </div>
+
+          <div className="flex flex-col gap-24 max-w-5xl mx-auto">
+            
+            {/* Tejas Natani */}
+            <div className="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-14 items-center bg-[#100F0C] border border-white/[0.08] rounded-2xl p-6 sm:p-10 shadow-2xl">
+              <div className="md:col-span-5 relative w-full aspect-[4/5] overflow-hidden rounded-xl border border-white/[0.1]">
+                <Image 
+                  src="/tejasnatani.png" 
+                  alt="Tejas Natani" 
+                  fill 
+                  className="object-cover object-[70%_center] transition-transform duration-700 hover:scale-105" 
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-[#100F0C]/80 via-transparent to-transparent" />
               </div>
               <div className="md:col-span-7 flex flex-col text-left">
-                <p className="text-[10px] font-sans tracking-[0.2em] uppercase text-[#C6943B] mb-2">Founder & Director</p>
-                <h3 className="font-serif text-3xl sm:text-4xl lg:text-5xl text-[#fcfbf9] mb-6">Tejas Natani</h3>
-                <div className="w-12 h-[1px] bg-[#C6943B]/50 mb-6" />
-                <div className="text-[#fcfbf9] text-base sm:text-lg font-light leading-relaxed space-y-5 font-sans opacity-90">
+                <span className="text-[10px] font-sans font-bold tracking-[0.22em] text-[#D7AE63] uppercase mb-2 block">
+                  FOUNDER & DIRECTOR
+                </span>
+                <h3 
+                  className="text-3xl sm:text-4xl font-normal text-[#FAF8F5] mb-4"
+                  style={{ fontFamily: 'var(--font-cormorant), Georgia, serif' }}
+                >
+                  Tejas Natani
+                </h3>
+                <div className="w-12 h-[1px] bg-[#D7AE63]/60 mb-6" />
+                <div className="text-[#A8A398] text-sm leading-relaxed space-y-4 font-sans font-light">
                   <p>
                     Driven by a vision to redefine how people discover and experience travel. Passionate about innovation, he brings expertise in operations, process optimization, and project management, combining strategic thinking with flawless execution.
                   </p>
                   <p>
-                    The idea for La Vivenzia was born during his travels across multiple countries, where he recognized that extraordinary experiences often remained difficult to discover and fragmented to access. Inspired to bridge this gap, he envisioned a premium ecosystem that seamlessly connects discerning travelers with thoughtfully curated experiences, exceptional stays, and unforgettable journeys. 
+                    The idea for La Vivenzia was born during his travels across multiple countries, where he recognized that extraordinary experiences often remained difficult to discover and fragmented to access. Inspired to bridge this gap, he envisioned a premium ecosystem that seamlessly connects discerning travelers with thoughtfully curated experiences, exceptional stays, and unforgettable journeys.
                   </p>
                   <p>
-                    Today, he leads La Vivenzia&apos;s mission to transform travel from endless searching into effortless discovery, where every journey is designed to create lasting memories.
+                    Today, he leads La Vivenzia&apos;s mission to transform travel from endless searching into effortless discovery.
                   </p>
                 </div>
               </div>
             </div>
 
-            {/* Deepa */}
-            <div className="grid md:grid-cols-12 gap-8 md:gap-16 items-center group">
-              <div className="md:col-span-7 flex flex-col text-left md:text-right order-2 md:order-1">
-                <p className="text-[10px] font-sans tracking-[0.2em] uppercase text-[#C6943B] mb-2">Director & CXO</p>
-                <h3 className="font-serif text-3xl sm:text-4xl lg:text-5xl text-[#fcfbf9] mb-6">Deepa Khandelwal</h3>
-                <div className="w-12 h-[1px] bg-[#C6943B]/50 mb-6 md:ml-auto" />
-                <div className="text-[#fcfbf9] text-base sm:text-lg font-light leading-relaxed space-y-5 font-sans opacity-90">
+            {/* Deepa Khandelwal */}
+            <div className="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-14 items-center bg-[#100F0C] border border-white/[0.08] rounded-2xl p-6 sm:p-10 shadow-2xl">
+              <div className="md:col-span-7 flex flex-col text-left order-2 md:order-1">
+                <span className="text-[10px] font-sans font-bold tracking-[0.22em] text-[#D7AE63] uppercase mb-2 block">
+                  DIRECTOR & CXO
+                </span>
+                <h3 
+                  className="text-3xl sm:text-4xl font-normal text-[#FAF8F5] mb-4"
+                  style={{ fontFamily: 'var(--font-cormorant), Georgia, serif' }}
+                >
+                  Deepa Khandelwal
+                </h3>
+                <div className="w-12 h-[1px] bg-[#D7AE63]/60 mb-6" />
+                <div className="text-[#A8A398] text-sm leading-relaxed space-y-4 font-sans font-light">
                   <p>
                     Leading the design and execution of exceptional experiences that blend creativity with flawless execution. With extensive expertise in corporate events, community festivals, and luxury gatherings, she specializes in transforming complex ideas into seamless, memorable experiences.
                   </p>
@@ -61,23 +97,40 @@ export default function AboutUsPage() {
                   </p>
                 </div>
               </div>
-              <div className="md:col-span-5 relative w-full aspect-[4/5] overflow-hidden rounded-sm border border-[var(--color-border-gold)]/30 order-1 md:order-2">
-                <Image src="/deepakhandewal.jpg" alt="Deepa Khandelwal" fill className="object-cover md:group-hover:scale-105 transition-transform duration-[2s]" />
-                <div className="absolute inset-0 bg-gradient-to-t from-[#080806] via-transparent to-transparent opacity-50" />
+              <div className="md:col-span-5 relative w-full aspect-[4/5] overflow-hidden rounded-xl border border-white/[0.1] order-1 md:order-2">
+                <Image 
+                  src="/deepakhandewal.jpg" 
+                  alt="Deepa Khandelwal" 
+                  fill 
+                  className="object-cover transition-transform duration-700 hover:scale-105" 
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-[#100F0C]/80 via-transparent to-transparent" />
               </div>
             </div>
 
-            {/* Karan */}
-            <div className="grid md:grid-cols-12 gap-8 md:gap-16 items-center group">
-              <div className="md:col-span-5 relative w-full aspect-[4/5] overflow-hidden rounded-sm border border-[var(--color-border-gold)]/30">
-                <Image src="/karanpatil.PNG" alt="Karan Patil" fill className="object-cover object-[center_10%] md:group-hover:scale-105 transition-transform duration-[2s]" />
-                <div className="absolute inset-0 bg-gradient-to-t from-[#080806] via-transparent to-transparent opacity-50" />
+            {/* Karan Patil */}
+            <div className="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-14 items-center bg-[#100F0C] border border-white/[0.08] rounded-2xl p-6 sm:p-10 shadow-2xl">
+              <div className="md:col-span-5 relative w-full aspect-[4/5] overflow-hidden rounded-xl border border-white/[0.1]">
+                <Image 
+                  src="/karanpatil.PNG" 
+                  alt="Karan Patil" 
+                  fill 
+                  className="object-cover object-[center_10%] transition-transform duration-700 hover:scale-105" 
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-[#100F0C]/80 via-transparent to-transparent" />
               </div>
               <div className="md:col-span-7 flex flex-col text-left">
-                <p className="text-[10px] font-sans tracking-[0.2em] uppercase text-[#C6943B] mb-2">Core Team</p>
-                <h3 className="font-serif text-3xl sm:text-4xl lg:text-5xl text-[#fcfbf9] mb-6">Karan Patil</h3>
-                <div className="w-12 h-[1px] bg-[#C6943B]/50 mb-6" />
-                <div className="text-[#fcfbf9] text-base sm:text-lg font-light leading-relaxed space-y-5 font-sans opacity-90">
+                <span className="text-[10px] font-sans font-bold tracking-[0.22em] text-[#D7AE63] uppercase mb-2 block">
+                  TECHNICAL LEAD & CORE TEAM
+                </span>
+                <h3 
+                  className="text-3xl sm:text-4xl font-normal text-[#FAF8F5] mb-4"
+                  style={{ fontFamily: 'var(--font-cormorant), Georgia, serif' }}
+                >
+                  Karan Patil
+                </h3>
+                <div className="w-12 h-[1px] bg-[#D7AE63]/60 mb-6" />
+                <div className="text-[#A8A398] text-sm leading-relaxed space-y-4 font-sans font-light">
                   <p>
                     Driven by a passion for technology, innovation, and intelligent systems, Karan specializes in building AI-powered solutions that simplify complex business challenges and create meaningful digital experiences. With expertise spanning software development, automation, and modern AI technologies, he focuses on transforming ideas into scalable, practical solutions.
                   </p>
@@ -90,7 +143,9 @@ export default function AboutUsPage() {
                 </div>
               </div>
             </div>
+
           </div>
+
         </div>
       </section>
       

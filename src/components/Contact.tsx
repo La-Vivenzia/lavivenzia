@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import { Mail, Phone } from "lucide-react";
+import { Mail, Phone, MapPin, ArrowRight } from "lucide-react";
 import { getErrorMessage } from "@/lib/errors";
 
 export default function Contact() {
@@ -25,8 +25,6 @@ export default function Contact() {
     setSubmitStatus('idle');
 
     try {
-      // Posted to our own API rather than Supabase directly: RLS blocks anon
-      // inserts, and the route also emails the team the new enquiry.
       const res = await fetch('/api/contact', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -49,162 +47,152 @@ export default function Contact() {
   };
 
   return (
-    <section className="bg-[#080806] py-16 sm:py-24 border-t border-[var(--color-border-subtle)] relative overflow-hidden">
-      {/* Subtle gold glow behind form */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[500px] bg-[radial-gradient(ellipse_at_center,rgba(198,148,59,0.05)_0%,transparent_70%)] pointer-events-none" />
-
-      <div className="container mx-auto px-4 sm:px-6 relative z-10">
-        <div className="max-w-4xl mx-auto grid lg:grid-cols-2 gap-12 lg:gap-20">
+    <section className="bg-[#080806] py-20 lg:py-28 border-b border-white/[0.06] relative overflow-hidden">
+      <div className="max-w-[1440px] mx-auto px-6 sm:px-8 lg:px-12 relative z-10">
+        
+        <div className="max-w-5xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
           
           {/* Left Column: Info */}
-          <div className="flex flex-col text-center lg:text-left">
-            <div className="text-[9px] font-sans font-semibold tracking-[0.4em] uppercase text-[#C6943B] mb-4">
-              GET IN TOUCH
+          <div className="lg:col-span-5 flex flex-col items-start text-left">
+            <div className="flex items-center gap-3 mb-4">
+              <span className="w-8 h-[1px] bg-[#8A857D]" />
+              <span className="text-[11px] font-sans tracking-[0.25em] text-[#A6A196] uppercase font-semibold">
+                GET IN TOUCH
+              </span>
             </div>
-            <h2 className="font-serif font-normal text-3xl sm:text-4xl lg:text-5xl text-[#E2BA5F] mb-6 leading-tight drop-shadow-md">
-              Contact Our Team
-            </h2>
-            <p className="text-[var(--color-body-text)] text-sm sm:text-base font-light leading-relaxed font-sans mb-10 max-w-lg mx-auto lg:mx-0">
-              Whether you are a premium host looking to partner, a traveler with inquiries, or want to say hello, we are here. Fill out the form below and our team will get back to you shortly.
+
+            <h1 
+              className="text-4xl sm:text-5xl font-normal text-[#FAF8F5] mb-6 leading-tight tracking-tight"
+              style={{ fontFamily: 'var(--font-cormorant), "Cormorant Garamond", Georgia, serif' }}
+            >
+              Connect With <br />
+              <span className="text-[#C5B499] italic">La Vivenzia</span>
+            </h1>
+
+            <p className="text-sm font-sans font-light text-[#A8A398] leading-relaxed mb-10">
+              Whether you are an aspiring founding host, a brand looking to collaborate, or a guest with curated travel inquiries, we welcome your dialogue.
             </p>
 
-            <div className="space-y-6 max-w-sm mx-auto lg:mx-0">
-              <a href="mailto:contact@lavivenzia.com" className="flex items-center gap-4 group">
-                <div className="w-10 h-10 rounded-full border border-[var(--color-border-gold)] flex items-center justify-center text-[#C6943B] group-hover:bg-[#C6943B] group-hover:text-[#080806] transition-colors">
+            <div className="space-y-6 w-full">
+              <div className="flex items-center gap-4">
+                <div className="w-10 h-10 rounded-full bg-[#14120F] border border-[#2B271F] flex items-center justify-center text-[#D7AE63] shrink-0">
                   <Mail className="w-4 h-4" />
                 </div>
-                <div className="text-left">
-                  <p className="text-[10px] font-sans tracking-[0.2em] uppercase text-[#C6943B]">Email</p>
-                  <p className="text-[var(--color-ivory)] font-light text-sm sm:text-base">contact@lavivenzia.com</p>
+                <div>
+                  <span className="block text-[10px] font-sans tracking-widest uppercase text-[#7C776E]">Email Directly</span>
+                  <a href="mailto:contact@lavivenzia.com" className="text-sm text-[#FAF8F5] hover:text-[#D7AE63] transition-colors font-sans">
+                    contact@lavivenzia.com
+                  </a>
                 </div>
-              </a>
-              
-              <a href="tel:+917558360963" className="flex items-center gap-4 group">
-                <div className="w-10 h-10 rounded-full border border-[var(--color-border-gold)] flex items-center justify-center text-[#C6943B] group-hover:bg-[#C6943B] group-hover:text-[#080806] transition-colors">
-                  <Phone className="w-4 h-4" />
+              </div>
+
+              <div className="flex items-center gap-4">
+                <div className="w-10 h-10 rounded-full bg-[#14120F] border border-[#2B271F] flex items-center justify-center text-[#D7AE63] shrink-0">
+                  <MapPin className="w-4 h-4" />
                 </div>
-                <div className="text-left">
-                  <p className="text-[10px] font-sans tracking-[0.2em] uppercase text-[#C6943B]">Phone</p>
-                  <p className="text-[var(--color-ivory)] font-light text-sm sm:text-base">+91 75583 60963</p>
+                <div>
+                  <span className="block text-[10px] font-sans tracking-widest uppercase text-[#7C776E]">Headquarters</span>
+                  <span className="text-sm text-[#FAF8F5] font-sans">
+                    Maharashtra, India
+                  </span>
                 </div>
-              </a>
+              </div>
             </div>
           </div>
 
-          {/* Right Column: Form */}
-          <div className="bg-[#11110f] border border-[var(--color-border-subtle)] p-6 sm:p-8 rounded-sm shadow-2xl relative">
-            {submitStatus === 'success' ? (
-              <div className="flex flex-col items-center justify-center text-center py-12 space-y-4">
-                <div className="w-16 h-16 rounded-full bg-[#1A1A18] border border-[var(--color-border-gold)] flex items-center justify-center text-[#C6943B] mb-2">
-                  <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" /></svg>
-                </div>
-                <h3 className="text-xl font-serif text-[#E2BA5F]">Message Sent</h3>
-                <p className="text-[var(--color-body-text)] text-sm font-light">Thank you for reaching out. Our team will get back to you shortly.</p>
-                <button 
-                  onClick={() => setSubmitStatus('idle')}
-                  className="mt-6 text-[10px] font-sans tracking-[0.15em] uppercase text-[#C6943B] hover:text-[#E2BA5F] transition-colors"
-                >
-                  Send another message
-                </button>
+          {/* Right Column: Luxury Form */}
+          <div className="lg:col-span-7 bg-[#100F0C] border border-white/[0.08] p-8 sm:p-10 rounded-2xl shadow-2xl">
+            <h3 
+              className="text-2xl font-normal text-[#FAF8F5] mb-6"
+              style={{ fontFamily: 'var(--font-cormorant), Georgia, serif' }}
+            >
+              Send an Enquiry
+            </h3>
+
+            <form onSubmit={handleSubmit} className="space-y-5">
+              <div>
+                <label className="block text-[11px] font-sans tracking-wider uppercase text-[#C5C0B6] mb-1.5">
+                  Your Name *
+                </label>
+                <input
+                  type="text"
+                  name="name"
+                  value={formData.name}
+                  onChange={handleInputChange}
+                  required
+                  placeholder="Karan Patil"
+                  className="w-full px-4 py-3 rounded-xl bg-[#161411] border border-white/[0.08] text-sm text-[#FAF8F5] placeholder-[#6E6A62] focus:outline-none focus:border-[#D7AE63] transition-colors"
+                />
               </div>
-            ) : (
-              <form className="space-y-5" onSubmit={handleSubmit}>
-                {submitStatus === 'error' && (
-                  <div className="p-3 bg-red-950/30 border border-red-900/50 rounded text-red-400 text-sm font-light text-center">
-                    Something went wrong. Please try again.
-                  </div>
-                )}
-                <div>
-                  <label className="block text-[10px] font-sans tracking-[0.15em] uppercase text-[var(--color-body-text)] mb-2">
-                    Your Name *
-                  </label>
-                  <input 
-                    type="text" 
-                    required
-                    name="name"
-                    value={formData.name}
-                    onChange={handleInputChange}
-                    className="w-full bg-[#080806] border border-white/10 rounded-sm px-4 py-3 text-sm text-[var(--color-ivory)] font-light focus:outline-none focus:border-[#C6943B]/50 transition-colors"
-                    placeholder="John Doe"
-                    disabled={isSubmitting}
-                  />
-                </div>
 
-                <div>
-                  <label className="block text-[10px] font-sans tracking-[0.15em] uppercase text-[var(--color-body-text)] mb-2">
-                    Email Address *
-                  </label>
-                  <input 
-                    type="email" 
-                    required
-                    name="email"
-                    value={formData.email}
-                    onChange={handleInputChange}
-                    className="w-full bg-[#080806] border border-white/10 rounded-sm px-4 py-3 text-sm text-[var(--color-ivory)] font-light focus:outline-none focus:border-[#C6943B]/50 transition-colors"
-                    placeholder="john@example.com"
-                    disabled={isSubmitting}
-                  />
-                </div>
+              <div>
+                <label className="block text-[11px] font-sans tracking-wider uppercase text-[#C5C0B6] mb-1.5">
+                  Email Address *
+                </label>
+                <input
+                  type="email"
+                  name="email"
+                  value={formData.email}
+                  onChange={handleInputChange}
+                  required
+                  placeholder="karan@lavivenzia.com"
+                  className="w-full px-4 py-3 rounded-xl bg-[#161411] border border-white/[0.08] text-sm text-[#FAF8F5] placeholder-[#6E6A62] focus:outline-none focus:border-[#D7AE63] transition-colors"
+                />
+              </div>
 
-                <div>
-                  <label className="block text-[10px] font-sans tracking-[0.15em] uppercase text-[var(--color-body-text)] mb-2">
-                    Subject *
-                  </label>
-                  <input 
-                    type="text" 
-                    required
-                    name="subject"
-                    value={formData.subject}
-                    onChange={handleInputChange}
-                    className="w-full bg-[#080806] border border-white/10 rounded-sm px-4 py-3 text-sm text-[var(--color-ivory)] font-light focus:outline-none focus:border-[#C6943B]/50 transition-colors"
-                    placeholder="How can we help?"
-                    disabled={isSubmitting}
-                  />
-                </div>
+              <div>
+                <label className="block text-[11px] font-sans tracking-wider uppercase text-[#C5C0B6] mb-1.5">
+                  Subject *
+                </label>
+                <input
+                  type="text"
+                  name="subject"
+                  value={formData.subject}
+                  onChange={handleInputChange}
+                  required
+                  placeholder="Founding Host Partnership / Media Inquiry"
+                  className="w-full px-4 py-3 rounded-xl bg-[#161411] border border-white/[0.08] text-sm text-[#FAF8F5] placeholder-[#6E6A62] focus:outline-none focus:border-[#D7AE63] transition-colors"
+                />
+              </div>
 
-                <div>
-                  <label className="block text-[10px] font-sans tracking-[0.15em] uppercase text-[var(--color-body-text)] mb-2">
-                    Your Message *
-                  </label>
-                  <textarea 
-                    required
-                    rows={4}
-                    name="message"
-                    value={formData.message}
-                    onChange={handleInputChange}
-                    className="w-full bg-[#080806] border border-white/10 rounded-sm px-4 py-3 text-sm text-[var(--color-ivory)] font-light focus:outline-none focus:border-[#C6943B]/50 transition-colors resize-none"
-                    placeholder="Tell us about your inquiry..."
-                    disabled={isSubmitting}
-                  ></textarea>
-                </div>
+              <div>
+                <label className="block text-[11px] font-sans tracking-wider uppercase text-[#C5C0B6] mb-1.5">
+                  Message *
+                </label>
+                <textarea
+                  name="message"
+                  value={formData.message}
+                  onChange={handleInputChange}
+                  required
+                  rows={4}
+                  placeholder="Tell us about your property, inquiry, or partnership idea..."
+                  className="w-full px-4 py-3 rounded-xl bg-[#161411] border border-white/[0.08] text-sm text-[#FAF8F5] placeholder-[#6E6A62] focus:outline-none focus:border-[#D7AE63] transition-colors resize-none"
+                />
+              </div>
 
-                <button
-                  type="submit"
-                  disabled={isSubmitting}
-                  className="w-full mt-2 relative overflow-hidden group disabled:opacity-50 disabled:cursor-not-allowed"
-                  style={{
-                    background: "linear-gradient(135deg, #D4A843 0%, #C6943B 50%, #9A7030 100%)",
-                    color: "#080806",
-                    padding: "14px 24px",
-                    borderRadius: "4px",
-                    fontSize: "11px",
-                    fontWeight: 700,
-                    letterSpacing: "0.2em",
-                    textTransform: "uppercase",
-                    fontFamily: "var(--font-sans)",
-                    boxShadow: "0 4px 15px rgba(198,148,59,0.25)",
-                    transition: "all 0.3s ease",
-                    border: "none",
-                    cursor: isSubmitting ? "not-allowed" : "pointer",
-                  }}
-                >
-                  {isSubmitting ? "Sending..." : "Send Message"}
-                </button>
-              </form>
-            )}
+              {submitStatus === 'success' && (
+                <p className="text-xs text-[#D7AE63] font-sans">
+                  ✓ Your message has been dispatched. Our team will respond promptly.
+                </p>
+              )}
+              {submitStatus === 'error' && (
+                <p className="text-xs text-red-400 font-sans">
+                  Failed to send message. Please reach us directly at contact@lavivenzia.com.
+                </p>
+              )}
+
+              <button
+                type="submit"
+                disabled={isSubmitting}
+                className="w-full py-3.5 rounded-full bg-[#E4DCD1] hover:bg-white text-[#14120E] text-xs font-semibold tracking-wider uppercase font-sans transition-all duration-300 shadow-md hover:translate-y-[-1px]"
+              >
+                {isSubmitting ? "Dispatching..." : "Send Message"}
+              </button>
+            </form>
           </div>
 
         </div>
+
       </div>
     </section>
   );

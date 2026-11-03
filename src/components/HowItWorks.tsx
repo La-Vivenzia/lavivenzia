@@ -1,95 +1,140 @@
-import { ClipboardList, Search, Mail, Rocket } from "lucide-react";
+"use client";
+
+import { useState } from "react";
+import { ClipboardList, Search, Mail, Rocket, ArrowRight } from "lucide-react";
 import Image from "next/image";
+import HostRegistrationModal from "./HostRegistrationModal";
 
 const steps = [
   {
     step: "STEP 01",
-    title: "Apply",
-    description: "Tell us about your business, experience or event.",
-    icon: <ClipboardList className="w-6 h-6 text-[var(--color-gold-primary)]" strokeWidth={1.5} />,
+    title: "Submit Details",
+    description: "Tell us about your property, table, or bespoke retreat in Maharashtra.",
+    icon: <ClipboardList className="w-5 h-5 text-[#D7AE63]" strokeWidth={1.5} />,
   },
   {
     step: "STEP 02",
-    title: "Review",
-    description: "Our team reviews your application carefully.",
-    icon: <Search className="w-6 h-6 text-[var(--color-gold-primary)]" strokeWidth={1.5} />,
+    title: "Curation Review",
+    description: "Our hospitality team reviews your space for quality, soul, and aesthetic alignment.",
+    icon: <Search className="w-5 h-5 text-[#D7AE63]" strokeWidth={1.5} />,
   },
   {
     step: "STEP 03",
-    title: "Early Access",
-    description: "Selected hosts get priority onboarding & support.",
-    icon: <Mail className="w-6 h-6 text-[var(--color-gold-primary)]" strokeWidth={1.5} />,
+    title: "Founding Onboarding",
+    description: "Approved hosts receive personalized profile creation and photo curation support.",
+    icon: <Mail className="w-5 h-5 text-[#D7AE63]" strokeWidth={1.5} />,
   },
   {
     step: "STEP 04",
-    title: "Launch Together",
-    description: "Go live with us when La Vivenzia officially launches.",
-    icon: <Rocket className="w-6 h-6 text-[var(--color-gold-primary)]" strokeWidth={1.5} />,
+    title: "Launch Exposure",
+    description: "Go live with priority positioning when the platform officially unveils.",
+    icon: <Rocket className="w-5 h-5 text-[#D7AE63]" strokeWidth={1.5} />,
   },
 ];
 
 export default function HowItWorks() {
+  const [isHostOpen, setIsHostOpen] = useState(false);
+
   return (
-    <section className="bg-[var(--color-background)] py-16 sm:py-20 lg:py-24 border-b border-[var(--color-border-subtle)] overflow-hidden">
-      <div className="container mx-auto px-4 sm:px-6 relative z-10 grid lg:grid-cols-2 gap-12 sm:gap-16 lg:gap-20 items-center">
-        
-        {/* Left: Architectural Image */}
-        <div className="relative aspect-[4/5] w-full max-w-md mx-auto lg:max-w-none border border-[var(--color-border-subtle)] p-2 rounded-sm">
-          <div className="relative w-full h-full overflow-hidden">
+    <>
+      <section className="bg-[#080806] py-20 lg:py-28 border-b border-white/[0.06] overflow-hidden">
+        <div className="max-w-[1440px] mx-auto px-6 sm:px-8 lg:px-12 grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
+          
+          {/* Left: Architectural Visual */}
+          <div className="lg:col-span-5 relative aspect-[4/5] w-full rounded-2xl overflow-hidden border border-white/[0.1] shadow-2xl">
             <Image 
               src="/how-it-works-new.jpg"
               alt="La Vivenzia Partner Application"
               fill
-              className="object-cover transition-transform duration-[2s] hover:scale-105"
+              className="object-cover transition-transform duration-700 hover:scale-105"
             />
-            {/* Moody warm overlay */}
-            <div className="absolute inset-0 bg-gradient-to-tr from-[#080806]/60 via-[#100E0A]/20 to-transparent" />
-            <div className="absolute inset-0 mix-blend-color bg-[var(--color-gold-muted)] opacity-20" />
-          </div>
-        </div>
-
-        {/* Right: Content */}
-        <div>
-          <div className="mb-10 sm:mb-12 text-center lg:text-left">
-            <div className="flex items-center justify-center lg:justify-start gap-4 mb-4 opacity-70">
-              <div className="w-12 h-[1px] bg-[var(--color-gold-muted)]" />
-              <svg width="8" height="8" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M5 0L10 5L5 10L0 5L5 0Z" fill="var(--color-gold-primary)"/>
-              </svg>
-              <div className="w-12 h-[1px] bg-[var(--color-gold-muted)]" />
+            <div className="absolute inset-0 bg-gradient-to-t from-[#080806]/80 via-transparent to-transparent" />
+            
+            <div className="absolute bottom-6 left-6 right-6">
+              <span className="text-[10px] font-sans font-bold tracking-[0.25em] text-[#D7AE63] uppercase block mb-1">
+                EXCLUSIVITY GUARANTEED
+              </span>
+              <p 
+                className="text-xl text-[#FAF8F5] font-normal"
+                style={{ fontFamily: 'var(--font-cormorant), Georgia, serif' }}
+              >
+                Every listing is visited, verified, and thoughtfully curated.
+              </p>
             </div>
-            <p className="text-[var(--color-gold-primary)] text-xs sm:text-sm font-semibold tracking-[0.2em] uppercase mb-3 font-sans">
-              HOW IT WORKS
-            </p>
-            <h2 className="font-serif font-medium text-3xl sm:text-4xl lg:text-5xl text-[var(--color-ivory)] leading-tight uppercase">
-              Simple Steps <br />
-              <span className="text-gradient-gold">To Get Started</span>
+          </div>
+
+          {/* Right: 4 Steps */}
+          <div className="lg:col-span-7 flex flex-col items-start">
+            
+            <div className="flex items-center gap-3 mb-4">
+              <span className="w-8 h-[1px] bg-[#8A857D]" />
+              <span className="text-[11px] font-sans tracking-[0.25em] text-[#A6A196] uppercase font-semibold">
+                HOW IT WORKS
+              </span>
+            </div>
+
+            <h2 
+              className="text-4xl sm:text-5xl font-normal text-[#FAF8F5] mb-6 leading-tight tracking-tight"
+              style={{ fontFamily: 'var(--font-cormorant), "Cormorant Garamond", Georgia, serif' }}
+            >
+              The Path to Becoming a <br />
+              <span className="text-[#C5B499] italic">Founding Host</span>
             </h2>
+
+            <p className="text-sm font-sans font-light text-[#A8A398] leading-relaxed mb-10 max-w-xl">
+              We ensure our onboarding process is respectful of your time while safeguarding the prestige of the La Vivenzia network.
+            </p>
+
+            {/* Steps list */}
+            <div className="space-y-6 w-full max-w-xl mb-10">
+              {steps.map((st) => (
+                <div 
+                  key={st.step} 
+                  className="flex items-start gap-4 p-4 rounded-xl bg-[#100F0C] border border-white/[0.06] hover:border-[#D7AE63]/40 transition-colors"
+                >
+                  <div className="w-10 h-10 rounded-full bg-[#1A1813] border border-[#2D281F] flex items-center justify-center shrink-0">
+                    {st.icon}
+                  </div>
+                  <div>
+                    <span className="text-[10px] font-mono tracking-widest text-[#D7AE63] uppercase block">
+                      {st.step}
+                    </span>
+                    <h4 
+                      className="text-lg font-normal text-[#FAF8F5] tracking-wide"
+                      style={{ fontFamily: 'var(--font-cormorant), Georgia, serif' }}
+                    >
+                      {st.title}
+                    </h4>
+                    <p className="text-xs font-sans font-light text-[#9E988D] leading-relaxed mt-1">
+                      {st.description}
+                    </p>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            {/* Application CTA */}
+            <div>
+              <button
+                type="button"
+                onClick={() => setIsHostOpen(true)}
+                className="inline-flex items-center gap-2.5 px-8 py-4 rounded-full bg-[#E4DCD1] hover:bg-white text-[#14120E] text-xs font-semibold tracking-wider uppercase font-sans transition-all duration-300 shadow-md hover:translate-y-[-1px]"
+              >
+                <span>Submit Founding Host Application</span>
+                <ArrowRight className="w-3.5 h-3.5" />
+              </button>
+            </div>
+
           </div>
 
-          <div className="flex flex-col gap-8 max-w-md mx-auto lg:mx-0">
-            {steps.map((item, idx) => (
-              <div key={idx} className="flex flex-row items-start sm:items-center gap-5 sm:gap-6">
-                <div className="w-14 sm:w-16 h-14 sm:h-16 shrink-0 rounded-full border border-[var(--color-border-gold)] flex items-center justify-center bg-[var(--color-surface-warm)] relative z-10 shadow-md">
-                  {item.icon}
-                </div>
-
-                <div className="flex flex-col">
-                  <p className="text-[var(--color-gold-primary)] text-xs tracking-[0.25em] uppercase font-semibold mb-1 font-sans">
-                    {item.step}
-                  </p>
-                  <h3 className="text-[var(--color-ivory)] font-serif text-lg sm:text-xl lg:text-2xl mb-1 uppercase font-medium">
-                    {item.title}
-                  </h3>
-                  <p className="text-[var(--color-body-text)] text-xs sm:text-sm md:text-base font-light leading-relaxed font-sans max-w-sm">
-                    {item.description}
-                  </p>
-                </div>
-              </div>
-            ))}
-          </div>
         </div>
-      </div>
-    </section>
+      </section>
+
+      {/* Host Registration Modal */}
+      <HostRegistrationModal
+        isOpen={isHostOpen}
+        onClose={() => setIsHostOpen(false)}
+      />
+    </>
   );
 }
