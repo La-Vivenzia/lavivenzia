@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import Image from "next/image";
-import { Play, X } from "lucide-react";
+import { X } from "lucide-react";
 import HostRegistrationModal from "./HostRegistrationModal";
 import WaitlistModal from "./WaitlistModal";
 
@@ -22,14 +22,6 @@ export default function Hero({ onOpenStory }: HeroProps) {
     { title: "CULTURE", number: "03", img: "/design/thumb_culture_clean.jpg" },
     { title: "DINING", number: "04", img: "/design/thumb_dining_clean.jpg" },
   ];
-
-  const handleOpenVideo = () => {
-    if (onOpenStory) {
-      onOpenStory();
-    } else {
-      setIsVideoModalOpen(true);
-    }
-  };
 
   return (
     <>
@@ -56,10 +48,10 @@ export default function Hero({ onOpenStory }: HeroProps) {
 
         {/* Content Container */}
         <div className="max-w-[1440px] w-full mx-auto px-6 sm:px-8 lg:px-12 relative z-10">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-6 items-center">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-8 xl:gap-6 items-center">
             
             {/* Left Column — 100% Real Live Brand Copy */}
-            <div className="lg:col-span-6 flex flex-col items-start text-left z-10">
+            <div className="lg:col-span-7 xl:col-span-6 flex flex-col items-start text-left z-10">
               
               {/* Eyebrow: — LAUNCHING SOON / COMING SOON !!! */}
               <div className="flex items-center gap-3 mb-4">
@@ -71,7 +63,7 @@ export default function Hero({ onOpenStory }: HeroProps) {
 
               {/* Headline: The Future of Premium Experiences Begins Here. */}
               <h1 
-                className="text-4xl sm:text-5xl md:text-6xl lg:text-[62px] xl:text-[68px] font-normal leading-[1.08] tracking-[-0.015em] text-[#FAF8F5] mb-4"
+                className="text-4xl sm:text-5xl md:text-6xl lg:text-[54px] xl:text-[62px] 2xl:text-[68px] font-normal leading-[1.08] tracking-[-0.015em] text-[#FAF8F5] mb-4"
                 style={{ fontFamily: 'var(--font-cormorant), "Cormorant Garamond", Georgia, serif' }}
               >
                 The Future of Premium<br />
@@ -123,8 +115,8 @@ export default function Hero({ onOpenStory }: HeroProps) {
               {/* Trust Badges */}
               <ul className="flex flex-wrap items-center gap-x-4 gap-y-2 list-none">
                 {["By Invitation Only", "Curated Luxury", "Founding Members Welcome"].map((badge) => (
-                  <li key={badge} className="flex items-center gap-2">
-                    <span className="text-[#D7AE63] text-xs" aria-hidden="true">◆</span>
+                  <li key={badge} className="flex items-center gap-2.5">
+                    <span className="w-1 h-1 rounded-full bg-[#D7AE63]/80 shrink-0" aria-hidden="true" />
                     <span className="text-[10px] font-sans tracking-[0.25em] uppercase text-[#A6A196] font-semibold">
                       {badge}
                     </span>
@@ -135,7 +127,7 @@ export default function Hero({ onOpenStory }: HeroProps) {
             </div>
 
             {/* Center: Open Architectural Window Categories */}
-            <div className="hidden lg:flex lg:col-span-3 h-full relative items-center justify-end pr-6 pointer-events-none">
+            <div className="hidden xl:flex xl:col-span-2 h-full relative items-center justify-end pr-2 pointer-events-none">
               <div className="flex flex-col gap-2.5 text-right font-sans text-[11px] tracking-[0.32em] text-[#FAF8F5]/85 uppercase font-medium drop-shadow-[0_2px_8px_rgba(0,0,0,0.8)]">
                 <span>STAYS</span>
                 <span>EXPERIENCES</span>
@@ -144,40 +136,37 @@ export default function Hero({ onOpenStory }: HeroProps) {
               </div>
             </div>
 
-            {/* Right Column: 4 Category Cards Stack */}
-            <div className="lg:col-span-3 flex flex-col gap-3 z-10 w-full max-w-[290px] ml-auto">
+            {/* Right Column: 4 Category Cards — 2x2 grid below lg, vertical stack from lg */}
+            <div className="lg:col-span-5 xl:col-span-4 grid grid-cols-2 gap-3 sm:gap-4 lg:flex lg:flex-col lg:gap-3 z-10 w-full lg:max-w-[290px] lg:ml-auto">
               {categories.map((cat, idx) => {
                 const isActive = activeCategory === idx;
                 return (
                   <div
                     key={cat.number}
                     onClick={() => setActiveCategory(idx)}
-                    className={`group cursor-pointer flex items-center justify-between p-2.5 rounded-xl transition-all duration-300 border-b border-white/[0.08] last:border-b-0 ${
+                    className={`group cursor-pointer grid grid-cols-[minmax(0,1fr)_auto] lg:grid-cols-[auto_minmax(0,1fr)_auto] items-center gap-x-3 gap-y-2.5 p-2.5 rounded-xl border transition-all duration-300 ${
                       isActive 
-                        ? 'bg-[#181613]/90 rounded-xl border border-[#D7AE63]/60 shadow-[0_4px_24px_rgba(0,0,0,0.6)]' 
-                        : 'hover:bg-[#161411]/70'
+                        ? 'bg-[#181613]/90 border-[#D7AE63]/60 shadow-[0_4px_24px_rgba(0,0,0,0.6)]' 
+                        : 'bg-[#12110E]/70 border-white/[0.08] hover:bg-[#161411]/80 lg:bg-transparent lg:rounded-none lg:border-x-transparent lg:border-t-transparent lg:last:border-b-transparent lg:hover:rounded-xl lg:hover:bg-[#161411]/70'
                     }`}
                   >
-                    <div className="flex items-center gap-3">
-                      <div className="relative w-16 h-11 rounded-lg overflow-hidden shrink-0 border border-white/10">
-                        <Image
-                          src={cat.img}
-                          alt={cat.title}
-                          fill
-                          sizes="80px"
-                          className="object-cover transition-transform duration-500 group-hover:scale-110"
-                        />
-                      </div>
-                      <span className="text-xs font-sans font-medium tracking-[0.2em] text-[#FAF8F5] uppercase">
-                        {cat.title}
-                      </span>
+                    <div className="relative col-span-2 lg:col-span-1 w-full aspect-[16/10] lg:w-16 lg:h-11 lg:aspect-auto rounded-lg overflow-hidden shrink-0 border border-white/10">
+                      <Image
+                        src={cat.img}
+                        alt={cat.title}
+                        fill
+                        sizes="(max-width: 1023px) 50vw, 80px"
+                        className="object-cover transition-transform duration-500 group-hover:scale-110"
+                      />
                     </div>
 
-                    <div className="pr-2">
-                      <span className="text-xs font-mono tracking-widest text-[#7C776E] group-hover:text-[#D7AE63] transition-colors">
-                        {cat.number}
-                      </span>
-                    </div>
+                    <span className="pl-1 lg:pl-0 text-[11px] sm:text-xs font-sans font-medium tracking-[0.2em] text-[#FAF8F5] uppercase truncate">
+                      {cat.title}
+                    </span>
+
+                    <span className="pr-1 lg:pr-2 text-xs font-mono tracking-widest text-[#7C776E] group-hover:text-[#D7AE63] transition-colors">
+                      {cat.number}
+                    </span>
                   </div>
                 );
               })}

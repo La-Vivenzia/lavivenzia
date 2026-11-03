@@ -1,7 +1,8 @@
 "use client";
 
 import React, { useState } from "react";
-import { Brain, Zap, ArrowRight } from "lucide-react";
+import { ArrowRight } from "lucide-react";
+import { ArmillarySphereIcon, CompassRoseIcon } from "./LuxuryIcons";
 import WaitlistModal from "./WaitlistModal";
 
 export default function Viveniq() {
@@ -47,7 +48,7 @@ export default function Viveniq() {
                 {/* Hyper-Personalization */}
                 <div className="flex items-start gap-4">
                   <div className="mt-1 w-11 h-11 rounded-full bg-[#14120F] border border-[#2E2A22] flex items-center justify-center shrink-0 text-[#D7AE63] shadow-md">
-                    <Brain className="w-5 h-5" />
+                    <CompassRoseIcon className="w-[22px] h-[22px]" />
                   </div>
                   <div>
                     <h4 
@@ -65,7 +66,7 @@ export default function Viveniq() {
                 {/* Predictive Curation */}
                 <div className="flex items-start gap-4">
                   <div className="mt-1 w-11 h-11 rounded-full bg-[#14120F] border border-[#2E2A22] flex items-center justify-center shrink-0 text-[#D7AE63] shadow-md">
-                    <Zap className="w-5 h-5" />
+                    <ArmillarySphereIcon className="w-[22px] h-[22px]" />
                   </div>
                   <div>
                     <h4 

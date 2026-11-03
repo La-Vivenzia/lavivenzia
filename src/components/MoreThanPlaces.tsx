@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import Image from "next/image";
-import { ArrowRight, Sparkles } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import WaitlistModal from "./WaitlistModal";
 
 export default function MoreThanPlaces() {
@@ -42,10 +42,10 @@ export default function MoreThanPlaces() {
             <div className="lg:col-span-3 flex flex-col items-start text-left pt-2">
               
               {/* Eyebrow */}
-              <div className="flex items-center gap-2 mb-6">
-                <span className="text-[#C6943B] text-xs">◆</span>
+              <div className="flex items-center gap-3 mb-6">
+                <span className="w-8 h-[1px] bg-[#C6943B]" aria-hidden="true" />
                 <span className="text-[10px] font-sans font-semibold tracking-[0.25em] text-[#A6A196] uppercase">
-                  BUILT FOR A DIFFERENT KIND OF TRAVELLER
+                  THE CURATION PHILOSOPHY
                 </span>
               </div>
 
@@ -59,10 +59,7 @@ export default function MoreThanPlaces() {
               </h2>
 
               {/* Subtext badge */}
-              <div className="flex items-start gap-3.5 pt-2">
-                <div className="w-8 h-8 rounded-full bg-[#161411] border border-[#2D2A23] flex items-center justify-center shrink-0 text-[#C5B499] shadow-sm">
-                  <Sparkles className="w-3.5 h-3.5" />
-                </div>
+              <div className="pt-2 pl-4 border-l border-[#C6943B]/50">
                 <p className="text-xs sm:text-sm font-sans font-light text-[#A8A398] leading-relaxed">
                   A complete travel experience,<br />
                   thoughtfully curated for you.

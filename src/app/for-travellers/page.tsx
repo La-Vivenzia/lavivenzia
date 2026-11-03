@@ -3,12 +3,13 @@
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import TravelerWaitlistForm from "@/components/TravelerWaitlistForm";
-import { Sparkles, Compass, Shield, Key } from "lucide-react";
+import { Compass, Shield, Key } from "lucide-react";
+import { ArmillarySphereIcon } from "@/components/LuxuryIcons";
 
 export default function ForTravellersPage() {
   const perks = [
     {
-      icon: <Sparkles className="w-5 h-5 text-[#D7AE63]" />,
+      icon: <ArmillarySphereIcon className="w-5 h-5 text-[#D7AE63]" strokeWidth={1.2} />,
       title: "Viveniq AI Discovery",
       desc: "Our proprietary engine maps your aesthetic tastes and mood to handpicked escapes across Maharashtra.",
     },

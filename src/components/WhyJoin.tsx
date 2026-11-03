@@ -1,10 +1,11 @@
 "use client";
 
-import { Diamond, ShieldCheck, Sparkles, Megaphone, CalendarCheck, LineChart, Users } from "lucide-react";
+import { ShieldCheck, Megaphone, CalendarCheck, LineChart, Users } from "lucide-react";
+import { ArchPortalIcon, ArmillarySphereIcon } from "./LuxuryIcons";
 
 const features = [
   {
-    icon: <Diamond className="w-5 h-5 text-[#D7AE63]" strokeWidth={1.5} />,
+    icon: <ArchPortalIcon className="w-5 h-5 text-[#D7AE63]" strokeWidth={1.2} />,
     title: "Discerning Audience",
     description: "Reach verified high-net-worth guests seeking authentic, private, and premium escapes.",
   },
@@ -14,7 +15,7 @@ const features = [
     description: "We strictly limit our collection to maintain exclusivity and prevent price-competition dilution.",
   },
   {
-    icon: <Sparkles className="w-5 h-5 text-[#D7AE63]" strokeWidth={1.5} />,
+    icon: <ArmillarySphereIcon className="w-5 h-5 text-[#D7AE63]" strokeWidth={1.2} />,
     title: "Viveniq AI Discovery",
     description: "Our proprietary engine matches your property with travelers based on style and mood, not endless searching.",
   },

@@ -1,6 +1,6 @@
 "use client";
 
-import { Sparkles, Compass } from "lucide-react";
+import { CompassRoseIcon, MonogramEmblem } from "./LuxuryIcons";
 
 export default function PartnerBanner() {
   const offerings = [
@@ -18,7 +18,7 @@ export default function PartnerBanner() {
         {/* Left: Pre-Launch Curation Label */}
         <div className="flex items-center gap-5 shrink-0">
           <div className="w-8 h-8 rounded-full bg-[#1A1814] text-[#E5DFD4] flex items-center justify-center shrink-0">
-            <Compass className="w-4 h-4" />
+            <CompassRoseIcon className="w-[18px] h-[18px]" strokeWidth={1.1} />
           </div>
           <div className="text-left">
             <span className="block text-[10px] font-sans font-bold tracking-[0.24em] text-[#292622] uppercase">
@@ -57,9 +57,7 @@ export default function PartnerBanner() {
                 FOUNDING ACCESS · 2026
               </span>
             </div>
-            <div className="w-7 h-7 rounded-full bg-[#C6943B]/20 text-[#8F641B] flex items-center justify-center">
-              <Sparkles className="w-3.5 h-3.5" />
-            </div>
+            <MonogramEmblem className="w-8 h-8 shrink-0 text-[#8F641B]" />
           </div>
         </div>
 
