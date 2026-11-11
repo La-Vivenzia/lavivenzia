@@ -7,6 +7,15 @@ const nextConfig: NextConfig = {
     qualities: [75, 90],
     formats: ["image/avif", "image/webp"],
   },
+  async redirects() {
+    return [
+      {
+        source: "/:path*",
+        destination: "https://lavivenzia.com/:path*",
+        permanent: false,
+      },
+    ];
+  },
 };
 
 export default nextConfig;
